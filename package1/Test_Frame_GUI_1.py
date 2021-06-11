@@ -31,7 +31,7 @@ password_fr.place(x = 20,y = 150)
 settings_fr = ttk.Frame(main_fr,width=200,height=40)
 settings_fr.place(x = 20,y = 200)
 
-menu_btn = Button(menu_fr,text="Меню",width=30,height=2, command=menu_btn_press, activebackground='#FF4500')
+menu_btn = Button(menu_fr, text="Меню",width=30,height=2, command=menu_btn_press, activebackground='#FF4500')
 menu_btn.place(x=5, y=2)
 
 password_btn = Button(password_fr, text="Пароли",width=30,height=2, command=password_btn_press, activebackground='#FF4500')
