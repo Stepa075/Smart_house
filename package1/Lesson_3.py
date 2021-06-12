@@ -2,8 +2,9 @@ import ctypes
 import time
 from ctypes import wintypes
 from tkinter import *
-
+import parsing_server1
 import requests
+
 
 
 def start_frame():
@@ -96,8 +97,16 @@ def check_Power():
 
 
 
+def xxx():
 
-
+        try:
+            parsing_server1.parsing_ESP()
+            xxx1 = parsing_server1.parsing_ESP()
+            print(xxx1 +'vot!')
+            root.after(3000, xxx)
+        except:
+            pass
+            root.after(3000, xxx)
 
 def check_req():
     try:
@@ -260,5 +269,6 @@ root.after(2000, check_Light_sensor_conections)
 root.after(2000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
-
+# root.after(0, parsing_server1.parsing_ESP())
+root.after(5000, xxx)
 root.mainloop()

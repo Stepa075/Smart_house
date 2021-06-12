@@ -1,0 +1,93 @@
+Index: package1/Test_Frame_GUI_1.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package1/Test_Frame_GUI_1.py b/package1/Test_Frame_GUI_1.py
+--- a/package1/Test_Frame_GUI_1.py	(revision dc4b97b18ab03ca5a91db94798d418c747b862ae)
++++ b/package1/Test_Frame_GUI_1.py	(date 1623405597605)
+@@ -31,7 +31,7 @@
+ settings_fr = ttk.Frame(main_fr,width=200,height=40)
+ settings_fr.place(x = 20,y = 200)
+ 
+-menu_btn = Button(menu_fr,text="Меню",width=30,height=2, command=menu_btn_press, activebackground='#FF4500')
++menu_btn = Button(menu_fr, text="Меню",width=30,height=2, command=menu_btn_press, activebackground='#FF4500')
+ menu_btn.place(x=5, y=2)
+ 
+ password_btn = Button(password_fr, text="Пароли",width=30,height=2, command=password_btn_press, activebackground='#FF4500')
+Index: package1/Lesson_3.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package1/Lesson_3.py b/package1/Lesson_3.py
+--- a/package1/Lesson_3.py	(revision dc4b97b18ab03ca5a91db94798d418c747b862ae)
++++ b/package1/Lesson_3.py	(date 1623408510916)
+@@ -1,6 +1,7 @@
+ from socket import socket
+ from sys import platform
+ from tkinter import *
++from tkinter import ttk
+ import time
+ import pythonping
+ import socket
+@@ -9,6 +10,18 @@
+ import requests
+ from urllib3.connectionpool import xrange
+ 
++def general_menu(*event):
++    frame_tumblers1_frame.place_forget()
++    frame_tumblers2_frame.place_forget()
++    frame_tumblers3_frame.place_forget()
++    frame_tumblers_frame.place(x=18, y=225, width=765, height=355)
++    print('def1')
++def overview(*event):
++    frame_tumblers_frame.place_forget()
++    frame_tumblers2_frame.place_forget()
++    frame_tumblers3_frame.place_forget()
++    frame_tumblers1_frame.place(x=18, y=225, width=765, height=355)
++    print('def2')
+ 
+ def setwindow(root):
+     root.title("Окно программы")
+@@ -90,7 +103,11 @@
+ setwindow(root)
+ frame_main_frame = Frame(master=root, relief=GROOVE, borderwidth=5, bg='#0c47a6')
+ frame_sensor_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#0f80f2')
+-frame_tumblers_frame = Frame(master=root, relief=GROOVE, borderwidth=5, bg='#a4aaab')
++
++frame_tumblers_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
++frame_tumblers1_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
++frame_tumblers2_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
++frame_tumblers3_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
+ 
+ lbl_time = Label(master=frame_sensor_frame, text='Current time: 00:00:00', font="Tahoma 12", bg='#0f80f2')
+ lbl_time.pack()
+@@ -112,18 +129,25 @@
+ lbl_Server_sensor.pack()
+ lbl_Internet_sensor.pack()
+ 
++lbl_general = Label(master=frame_tumblers_frame, text='General', font="Tahoma 14", bg='#a4aaab')
++lbl_general.pack()
+ 
++lbl_overview = Label(master=frame_tumblers1_frame, text='Overview', font="Tahoma 14", bg='#a4aaab')
++lbl_overview.pack()
+ 
+ 
+ 
+-button1 = Button(master=frame_main_frame, text="Моя кнопка 1", bg="#adb2b8", fg="Black", font="Tahoma 14")
+-button2 = Button(master=frame_main_frame, text="Моя кнопка 2", bg="#adb2b8", fg="Black", font="Tahoma 14")
++button1 = Button(master=frame_main_frame, text="General",  command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
++button2 = Button(master=frame_main_frame, text="Overview", command=overview, bg="#adb2b8", fg="Black", font="Tahoma 14")
+ button3 = Button(master=frame_main_frame, text="Моя кнопка 3", bg="#adb2b8", fg="Black", font="Tahoma 14")
+ button4 = Button(master=frame_main_frame, text="Моя кнопка 4", bg="#adb2b8", fg="Black", font="Tahoma 14")
+ 
+ frame_main_frame.place(x=5, y=5, width=790, height=590)
+ frame_sensor_frame.place(x=150, y=10, width=622, height=195)
+ frame_tumblers_frame.place(x=18, y=225, width=765, height=355)
++frame_tumblers1_frame.place(x=18, y=225, width=765, height=355)
++frame_tumblers2_frame.place(x=18, y=225, width=765, height=355)
++frame_tumblers3_frame.place(x=18, y=225, width=765, height=355)
+ 
+ button1.place(x=10, y=10, width=130, height=40)
+ button2.place(x=10, y=60, width=130, height=40)
