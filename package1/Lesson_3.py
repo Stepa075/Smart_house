@@ -4,7 +4,7 @@ from ctypes import wintypes
 from tkinter import *
 import parsing_server1
 import requests
-
+import logic_center
 
 
 def start_frame():
@@ -402,4 +402,5 @@ root.after(1000, update_time)
 root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
 # root.after(5000, xxx)
+root.after(0, logic_center.logicks_Sadok_Light)
 root.mainloop()

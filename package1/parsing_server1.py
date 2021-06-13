@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
-
+ESP_Light_Sensor: int=0
+Sadok_Light: int=0
 def parsing_ESP():
   try:
+    global ESP_Light_Sensor
     url= "http://192.168.0.110/sensors/adci1/"
     r= requests.get(url)
     r.encoding = "UTF8"
@@ -18,7 +20,7 @@ def parsing_ESP():
 
     str2=str1[str1.find(";") + 1 : ]
     str3=str2[str2.find(":") + 1 : str2.find(";")]
-
+    ESP_Light_Sensor = str3
   except:
     str3=-1
     pass
@@ -27,6 +29,7 @@ def parsing_ESP():
 
 def parsing_GPIO_Sadok():
   try:
+    global Sadok_Light
     url = "http://192.168.0.100/gpioprint"
     r = requests.get(url)
     r.encoding = "UTF8"
@@ -42,12 +45,14 @@ def parsing_GPIO_Sadok():
     f.close()
     str_sad2 = str_sad[:str_sad.find(";") + 1]
     str_sad3 = str_sad2[str_sad2.find(":") + 1: str_sad2.find(";")]
-    print(str_sad3)
+    Sadok_Light=str_sad3
+
+
   except:
     str_sad3=-1
     pass
   return str_sad3
 
 # if __name__ == "__main__":
-#   parsing_GPIO_Sadok()
-#   parsing_ESP()
+ # parsing_GPIO_Sadok()
+ # parsing_ESP()
