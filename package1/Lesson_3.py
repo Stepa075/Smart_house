@@ -102,11 +102,32 @@ def xxx():
         try:
             parsing_server1.parsing_ESP()
             xxx1 = parsing_server1.parsing_ESP()
-            print(xxx1 +'vot!')
+            print(xxx1)
+            lbl_gen_fr_1_value['text'] = xxx1
+            lbl_gen_fr_2_value['text'] = xxx1
             root.after(3000, xxx)
         except:
+            lbl_gen_fr_1_value['text'] = 'Fucking ERROR!!!'
             pass
             root.after(3000, xxx)
+
+
+def parser_GPIO_sadok():
+    try:
+        parsing_server1.parsing_GPIO_Sadok()
+        xxx1 = parsing_server1.parsing_GPIO_Sadok()
+        print(xxx1)
+        if xxx1==0:
+            lbl_gen_fr3_1_value['text'] = 'ON'
+        else:
+            lbl_gen_fr3_1_value['text'] = "OFF"
+
+
+        root.after(600000, xxx)
+    except:
+        lbl_gen_fr3_1_value['text'] = 'Fucking ERROR!!!'
+        pass
+        root.after(600000, xxx)
 
 def check_req():
     try:
@@ -169,6 +190,10 @@ frame_main_frame = Frame(master=root, relief=GROOVE, borderwidth=5, bg='#0c47a6'
 frame_sensor_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#0f80f2')
 
 frame_tumblers_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
+frame_general1 = Frame(master= frame_tumblers_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
+frame_general2 = Frame(master= frame_tumblers_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
+frame_general3 = Frame(master= frame_tumblers_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
+
 frame_tumblers1_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
 frame_tumblers2_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
 frame_tumblers3_frame = Frame(master=frame_main_frame, relief=GROOVE, borderwidth=5, bg='#a4aaab')
@@ -197,10 +222,68 @@ lbl_Gas_sensor.pack()
 lbl_Server_sensor.pack()
 lbl_Internet_sensor.pack()
 
-lbl_general = Label(master=frame_tumblers_frame, text='General', font="Tahoma 14", bg='#a4aaab')
+lbl_general = Label(master=frame_tumblers_frame, text='General', font="Tahoma 16", bg='#a4aaab')
 lbl_general.pack()
+lbl_gen_fr_1 = Label(master=frame_general1,  text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr_1_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_2 = Label(master=frame_general1, text='Light sensor2 value', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr_2_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_3 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr_3_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_4 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr_4_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_5 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr_5_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_1.pack(pady=1)
+lbl_gen_fr_1_value.pack(pady=1)
+lbl_gen_fr_2.pack(pady=1)
+lbl_gen_fr_2_value.pack(pady=1)
+lbl_gen_fr_3.pack(pady=1)
+lbl_gen_fr_3_value.pack(pady=1)
+lbl_gen_fr_4.pack(pady=1)
+lbl_gen_fr_4_value.pack(pady=1)
+lbl_gen_fr_5.pack(pady=1)
+lbl_gen_fr_5_value.pack(pady=1)
 
-lbl_overview = Label(master=frame_tumblers1_frame, text='Overview', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr2_1 = Label(master=frame_general2,  text='selective control', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr2_1.place(x=45, y=20, width=150, height=25)
+lbl_gen_fr2_2 = Label(master=frame_general2,  text='street light control', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr2_2.place(x=42, y=95,  height=25)
+lbl_gen_fr2_3 = Label(master=frame_general2,  text='input power control', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr2_3.place(x=35, y=174,  height=25)
+lbl_gen_fr2_4 = Label(master=frame_general2,  text='control system', font="Tahoma 14", bg='#a4aaab')
+lbl_gen_fr2_4.place(x=57, y=252,  height=25)
+
+lbl_gen_fr3_1 = Label(master=frame_general3,  text='Relay sadok', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_1_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_2 = Label(master=frame_general3, text='Reley2', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_2_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_3 = Label(master=frame_general3, text='Reley3', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_3_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_4 = Label(master=frame_general3, text='Reley4', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_4_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_5 = Label(master=frame_general3, text='Reley5', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_5_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_6 = Label(master=frame_general3, text='Reley6', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_6_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
+lbl_gen_fr3_1.pack(pady=1)
+lbl_gen_fr3_1_value.pack(pady=1)
+lbl_gen_fr3_2.pack(pady=1)
+lbl_gen_fr3_2_value.pack(pady=1)
+lbl_gen_fr3_3.pack(pady=1)
+lbl_gen_fr3_3_value.pack(pady=1)
+lbl_gen_fr3_4.pack(pady=1)
+lbl_gen_fr3_4_value.pack(pady=1)
+lbl_gen_fr3_5.pack(pady=1)
+lbl_gen_fr3_5_value.pack(pady=1)
+lbl_gen_fr3_6.pack(pady=1)
+lbl_gen_fr3_6_value.pack(pady=1)
+
+
+
+
+
+lbl_overview = Label(master=frame_tumblers1_frame, text='Overview', font="Tahoma 16", bg='#a4aaab')
 lbl_overview.pack()
 
 lbl_settings = Label(master=frame_tumblers2_frame, text='Settings', font="Tahoma 16", bg='#a4aaab')
@@ -241,7 +324,7 @@ ent_settings_ESP3.place(x=540, y=130)
 
 
 
-lbl_reserved = Label(master=frame_tumblers3_frame, text='Reserved', font="Tahoma 14", bg='#a4aaab')
+lbl_reserved = Label(master=frame_tumblers3_frame, text='Reserved', font="Tahoma 16", bg='#a4aaab')
 lbl_reserved.pack()
 
 button1 = Button(master=frame_main_frame, text="General", command=general_menu, bg="#adb2b8", fg="Black",
@@ -250,17 +333,59 @@ button2 = Button(master=frame_main_frame, text="Overview", command=overview, bg=
 button3 = Button(master=frame_main_frame, text="Settings", command=settings, bg="#adb2b8", fg="Black", font="Tahoma 14")
 button4 = Button(master=frame_main_frame, text="Reserved", command=reserved, bg="#adb2b8", fg="Black", font="Tahoma 14")
 
+button311 = Button(master=frame_general2, text="General1", command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
+button312 = Button(master=frame_general2, text="General1", command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
+button313 = Button(master=frame_general2, text="General1", command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
+button314 = Button(master=frame_general2, text="General1", command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
+button315 = Button(master=frame_general2, text="General1", command=general_menu, bg="#adb2b8", fg="Black", font="Tahoma 14")
+
+var = BooleanVar()
+var.set(0)
+R1 = Radiobutton(master=frame_general2, text="Local remote   ", width= 29, height=1, variable=var, value=True)
+R1.place( x=5, y=45 )
+R2 = Radiobutton(master=frame_general2, text="Online remote", width= 29, height=1, variable=var, value=False)
+R2.place( x=5, y=65)
+
+var2 = BooleanVar()
+var2.set(0)
+R3 = Radiobutton(master=frame_general2, text="Manual Off       ", width= 29, height=1, variable=var2, value=True)
+R3.place( x=5, y=125 )
+R4 = Radiobutton(master=frame_general2, text="Manual On       ", width= 29, height=1, variable=var2, value=False)
+R4.place( x=5, y=145)
+
+var3 = BooleanVar()
+var3.set(0)
+R5 = Radiobutton(master=frame_general2, text="Manual Off       ", width= 29, height=1, variable=var3, value=True)
+R5.place( x=5, y=205)
+R6 = Radiobutton(master=frame_general2, text="Manual On       ", width= 29, height=1, variable=var3, value=False)
+R6.place( x=5, y=225)
+var4 = BooleanVar()
+var4.set(0)
+R7 = Radiobutton(master=frame_general2, text="Manual Off       ", width= 29, height=1, variable=var4, value=True)
+R7.place( x=5, y=280 )
+R8 = Radiobutton(master=frame_general2, text="Manual On       ", width= 29, height=1, variable=var4, value=False)
+R8.place( x=5, y=300)
+
+
+
 frame_main_frame.place(x=5, y=5, width=790, height=590)
 frame_sensor_frame.place(x=150, y=10, width=622, height=195)
 frame_tumblers_frame.place(x=18, y=225, width=765, height=355)
 frame_tumblers1_frame.place(x=18, y=225, width=765, height=355)
 frame_tumblers2_frame.place(x=18, y=225, width=765, height=355)
 frame_tumblers3_frame.place(x=18, y=225, width=765, height=355)
+frame_general1.place(x=3, y=5, width=250, height=340)
+frame_general2.place(x=256, y=5, width=250, height=340)
+frame_general3.place(x=508, y=5, width=250, height=340)
 
-button1.place(x=10, y=10, width=130, height=40)
-button2.place(x=10, y=60, width=130, height=40)
-button3.place(x=10, y=110, width=130, height=40)
-button4.place(x=10, y=160, width=130, height=40)
+button1.place(x=10, y=13, width=130, height=40)
+button2.place(x=10, y=63, width=130, height=40)
+button3.place(x=10, y=113, width=130, height=40)
+button4.place(x=10, y=163, width=130, height=40)
+
+button311.place()
+button312.place()
+button313.place()
 
 root.after(0, start_frame)
 root.after(0, check_Power)
@@ -269,6 +394,6 @@ root.after(2000, check_Light_sensor_conections)
 root.after(2000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
-# root.after(0, parsing_server1.parsing_ESP())
+root.after(0, parser_GPIO_sadok())
 root.after(5000, xxx)
 root.mainloop()
