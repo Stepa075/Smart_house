@@ -105,29 +105,33 @@ def xxx():
             print(xxx1)
             lbl_gen_fr_1_value['text'] = xxx1
             lbl_gen_fr_2_value['text'] = xxx1
-            root.after(3000, xxx)
+            # root.after(3000, xxx)
         except:
             lbl_gen_fr_1_value['text'] = 'Fucking ERROR!!!'
             pass
-            root.after(3000, xxx)
+            # root.after(3000, xxx)
 
 
 def parser_GPIO_sadok():
     try:
-        parsing_server1.parsing_GPIO_Sadok()
-        xxx1 = parsing_server1.parsing_GPIO_Sadok()
-        print(xxx1)
-        if xxx1==0:
-            lbl_gen_fr3_1_value['text'] = 'ON'
+        r = requests.get('http://192.168.0.100/')
+        if r.status_code==200:
+            parsing_server1.parsing_GPIO_Sadok()
+            xxx1 = parsing_server1.parsing_GPIO_Sadok()
+            # print(xxx1)
+            if xxx1==0:
+                    lbl_gen_fr3_1_value['text'] = 'ON'
+            else:
+                    lbl_gen_fr3_1_value['text'] = "OFF"
+
+            root.after(300000, parser_GPIO_sadok)
         else:
-            lbl_gen_fr3_1_value['text'] = "OFF"
-
-
-        root.after(600000, xxx)
+            lbl_gen_fr3_1_value['text'] = 'ERROR'
+        root.after(300000, parser_GPIO_sadok)
     except:
         lbl_gen_fr3_1_value['text'] = 'Fucking ERROR!!!'
         pass
-        root.after(600000, xxx)
+        root.after(300000, parser_GPIO_sadok)
 
 def check_req():
     try:
@@ -147,6 +151,8 @@ def check_Light_sensor_conections():
         r = requests.get('http://192.168.0.110/')
         print(r.status_code)
         lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
+        if r.status_code==200:
+            root.after(0, xxx)
         root.after(600000, check_Light_sensor_conections)
     except:
         print('except! Light sensor')
@@ -394,6 +400,6 @@ root.after(2000, check_Light_sensor_conections)
 root.after(2000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
-root.after(0, parser_GPIO_sadok())
-root.after(5000, xxx)
+root.after(500, parser_GPIO_sadok)
+# root.after(5000, xxx)
 root.mainloop()
