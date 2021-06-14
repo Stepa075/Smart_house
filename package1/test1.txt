@@ -1,1 +1,1 @@
-hostname:LightSensor;adci1:18;
+hostname:LightSensor;adci1:828;

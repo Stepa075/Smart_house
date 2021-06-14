@@ -102,7 +102,7 @@ def xxx():
         try:
             parsing_server1.parsing_ESP()
             xxx1 = parsing_server1.parsing_ESP()
-            print(xxx1)
+            # print(xxx1)
             lbl_gen_fr_1_value['text'] = xxx1
             lbl_gen_fr_2_value['text'] = xxx1
             # root.after(3000, xxx)
@@ -401,6 +401,6 @@ root.after(2000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
-# root.after(5000, xxx)
-root.after(0, logic_center.logicks_Sadok_Light)
+# root.after(5000, logic_center.print_ESP_global)
+root.after(5000, logic_center.logicks_Sadok_Light)
 root.mainloop()
