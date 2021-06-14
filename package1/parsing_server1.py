@@ -49,12 +49,36 @@ def parsing_GPIO_Sadok():
     str_sad2 = str_sad[:str_sad.find(";") + 1]
     str_sad3 = str_sad2[str_sad2.find(":") + 1: str_sad2.find(";")]
     Sadok_Light=str_sad3
-
+    print(str_sad3)
 
   except:
     str_sad3=-1
     pass
   return str_sad3
+
+def parsing_GPIO_4relay():
+
+  try:
+    url = "http://192.168.0.120/gpioprint"
+    r = requests.get(url)
+    r.encoding = "UTF8"
+
+    with open('4relay.txt', 'w') as output_file:
+     output_file.write(r.text)
+
+    f = open('4relay.txt')
+    str_4relay = f.read()
+    f.close()
+    print('str_4relay' + str_4relay)
+    str_4relay2 = str_4relay[str_4relay.find(";") + 1:]
+    str_4relay3 = str_4relay2[str_4relay2.find(":") + 1: str_4relay2.find(";")]
+    print('str_4relay3' + str_4relay3)
+  except:
+    str_4relay3=-1
+    pass
+  return str_4relay3
+
+
 # def pr():
 #   print(ESP_Light_Sensor)
 # if __name__ == "__main__":

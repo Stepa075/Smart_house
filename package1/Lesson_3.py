@@ -115,11 +115,10 @@ def xxx():
 def parser_GPIO_sadok():
     try:
         r = requests.get('http://192.168.0.100/')
-        if r.status_code==200:
+        if r.status_code == 200:
             parsing_server1.parsing_GPIO_Sadok()
             xxx1 = parsing_server1.parsing_GPIO_Sadok()
-            # print(xxx1)
-            if xxx1==0:
+            if int(xxx1)==0:
                     lbl_gen_fr3_1_value['text'] = 'ON'
             else:
                     lbl_gen_fr3_1_value['text'] = "OFF"
@@ -132,6 +131,54 @@ def parser_GPIO_sadok():
         lbl_gen_fr3_1_value['text'] = 'Fucking ERROR!!!'
         pass
         root.after(300000, parser_GPIO_sadok)
+
+def parser_GPIO_4relay():
+        try:
+            r = requests.get('http://192.168.0.120/')
+            if r.status_code == 200:
+                parsing_server1.parsing_GPIO_4relay()
+                xxx1 = parsing_server1.parsing_GPIO_4relay()
+                xxx1 = parsing_server1.parsing_GPIO_4relay()
+                xxx1 = parsing_server1.parsing_GPIO_4relay()
+                xxx1 = parsing_server1.parsing_GPIO_4relay()
+                print('xxx1=' + xxx1)
+                if int(xxx1) == 0:
+                    lbl_gen_fr3_3_value['text'] = 'ON'
+                else:
+                    lbl_gen_fr3_3_value['text'] = "OFF"
+                if int(xxx1) == 0:
+                    lbl_gen_fr3_4_value['text'] = 'ON'
+                else:
+                    lbl_gen_fr3_4_value['text'] = "OFF"
+                if int(xxx1) == 0:
+                    lbl_gen_fr3_5_value['text'] = 'ON'
+                else:
+                    lbl_gen_fr3_5_value['text'] = "OFF"
+                if int(xxx1) == 0:
+                    lbl_gen_fr3_6_value['text'] = 'ON'
+                else:
+                    lbl_gen_fr3_6_value['text'] = "OFF"
+
+                root.after(300000, parser_GPIO_4relay)
+            else:
+                lbl_gen_fr3_3_value['text'] = 'ERROR'
+                lbl_gen_fr3_4_value['text'] = 'ERROR'
+                lbl_gen_fr3_5_value['text'] = 'ERROR'
+                lbl_gen_fr3_6_value['text'] = 'ERROR'
+            root.after(300000, parser_GPIO_4relay)
+        except:
+            lbl_gen_fr3_3_value['text'] = 'Fucking ERROR!!!'
+            lbl_gen_fr3_4_value['text'] = 'Fucking ERROR!!!'
+            lbl_gen_fr3_5_value['text'] = 'Fucking ERROR!!!'
+            lbl_gen_fr3_6_value['text'] = 'Fucking ERROR!!!'
+            pass
+            root.after(300000, parser_GPIO_4relay)
+
+def circle_function():
+    logic_center.logicks_Sadok_Light()
+    logic_center.logicks_4relay_Light()
+    print('circle running')
+    root.after(600000, circle_function)
 
 def check_req():
     try:
@@ -149,7 +196,7 @@ def check_req():
 def check_Light_sensor_conections():
     try:
         r = requests.get('http://192.168.0.110/')
-        print(r.status_code)
+        # print(r.status_code)
         lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
         if r.status_code==200:
             root.after(0, xxx)
@@ -264,13 +311,13 @@ lbl_gen_fr3_1 = Label(master=frame_general3,  text='Relay sadok', font="Tahoma 1
 lbl_gen_fr3_1_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
 lbl_gen_fr3_2 = Label(master=frame_general3, text='Reley2', font="Tahoma 12", bg='#a4aaab')
 lbl_gen_fr3_2_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_3 = Label(master=frame_general3, text='Reley3', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_3 = Label(master=frame_general3, text='4 Reley 1', font="Tahoma 12", bg='#a4aaab')
 lbl_gen_fr3_3_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_4 = Label(master=frame_general3, text='Reley4', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_4 = Label(master=frame_general3, text='4 Reley 2', font="Tahoma 12", bg='#a4aaab')
 lbl_gen_fr3_4_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_5 = Label(master=frame_general3, text='Reley5', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_5 = Label(master=frame_general3, text='4 Reley 3', font="Tahoma 12", bg='#a4aaab')
 lbl_gen_fr3_5_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_6 = Label(master=frame_general3, text='Reley6', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_6 = Label(master=frame_general3, text='4 Reley 4', font="Tahoma 12", bg='#a4aaab')
 lbl_gen_fr3_6_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
 lbl_gen_fr3_1.pack(pady=1)
 lbl_gen_fr3_1_value.pack(pady=1)
@@ -401,6 +448,6 @@ root.after(2000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
-# root.after(5000, logic_center.print_ESP_global)
-root.after(5000, logic_center.logicks_Sadok_Light)
+root.after(500, parser_GPIO_4relay)
+root.after(0, circle_function)
 root.mainloop()
