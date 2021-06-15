@@ -49,7 +49,7 @@ def parsing_GPIO_Sadok():
     str_sad2 = str_sad[:str_sad.find(";") + 1]
     str_sad3 = str_sad2[str_sad2.find(":") + 1: str_sad2.find(";")]
     Sadok_Light=str_sad3
-    print(str_sad3)
+    print('str_sadok3 ' + str(str_sad3))
 
   except:
     str_sad3=-1

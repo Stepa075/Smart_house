@@ -100,7 +100,6 @@ def check_Power():
 def xxx():
 
         try:
-            parsing_server1.parsing_ESP()
             xxx1 = parsing_server1.parsing_ESP()
             # print(xxx1)
             lbl_gen_fr_1_value['text'] = xxx1
@@ -122,8 +121,6 @@ def parser_GPIO_sadok():
                     lbl_gen_fr3_1_value['text'] = 'ON'
             else:
                     lbl_gen_fr3_1_value['text'] = "OFF"
-
-            root.after(300000, parser_GPIO_sadok)
         else:
             lbl_gen_fr3_1_value['text'] = 'ERROR'
         root.after(300000, parser_GPIO_sadok)
@@ -158,8 +155,6 @@ def parser_GPIO_4relay():
                     lbl_gen_fr3_6_value['text'] = 'ON'
                 else:
                     lbl_gen_fr3_6_value['text'] = "OFF"
-
-                root.after(300000, parser_GPIO_4relay)
             else:
                 lbl_gen_fr3_3_value['text'] = 'ERROR'
                 lbl_gen_fr3_4_value['text'] = 'ERROR'
@@ -182,41 +177,49 @@ def circle_function():
 
 def check_req():
     try:
-        r = requests.get('https://google.com.ua/')  # резервный ('http://httpbin.org/get')
-        print(r.status_code)
-        lbl_Internet_sensor['text'] = 'Internet sensor status: Connected, Ok'
+        r = requests.get('https://google.com/')  # резервный ('http://httpbin.org/get')
+        print('google.com ' + str(r.status_code))
+        if int(r.status_code)==200:
+            lbl_Internet_sensor['text'] = 'Internet sensor status: Connected, Ok'
+        else:
+            lbl_Internet_sensor['text'] = 'Internet sensor status: Disconnected, Error!'
         root.after(300000, check_req)
     except:
         print('except! Internet')
-        lbl_Internet_sensor['text'] = 'Internet sensor status: Disconnected, Error!'
+        lbl_Internet_sensor['text'] = 'Internet sensor status: Error!'
         pass
-        root.after(30000, check_req)
+        root.after(300000, check_req)
 
 
 def check_Light_sensor_conections():
     try:
-        r = requests.get('http://192.168.0.110/')
+        rl = requests.get('http://192.168.0.110/')
         # print(r.status_code)
-        lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
-        if r.status_code==200:
+        if int(rl.status_code)==200:
             root.after(0, xxx)
+            lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
+        else:
+            lbl_Light_sensor['text'] = 'Light sensor status: Disconnected, Error!'
         root.after(600000, check_Light_sensor_conections)
     except:
         print('except! Light sensor')
-        lbl_Light_sensor['text'] = 'Light sensor status: Disconnected, Error!'
+        lbl_Light_sensor['text'] = 'Light sensor status: Error!'
         pass
         root.after(600000, check_Light_sensor_conections)
 
 
 def check_Server_sensor_conections():
     try:
-        r = requests.get('https://ochre-propulsion.000webhostapp.com/')  # резервный ('http://httpbin.org/get')
-        print(r.status_code)
-        lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
+        rg = requests.get("https://ochre-propulsion.000webhostapp.com/")  # резервный ('http://httpbin.org/get')
+        print('check server ' + str(rg.status_code))
+        if int(rg.status_code)==200:
+            lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
+        else:
+            lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
         root.after(600000, check_Server_sensor_conections)
     except:
         print('except! Server')
-        lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
+        lbl_Server_sensor['text'] = 'Server sensor status: Error!'
         pass
         root.after(600000, check_Server_sensor_conections)
 
@@ -444,7 +447,7 @@ root.after(0, start_frame)
 root.after(0, check_Power)
 root.after(0, check_req)
 root.after(2000, check_Light_sensor_conections)
-root.after(2000, check_Server_sensor_conections)
+root.after(1000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
