@@ -116,7 +116,7 @@ def parser_GPIO_sadok():
     try:
         r = requests.get('http://192.168.0.100/')
         if r.status_code == 200:
-            parsing_server1.parsing_GPIO_Sadok()
+            # parsing_server1.parsing_GPIO_Sadok()
             xxx1 = parsing_server1.parsing_GPIO_Sadok()
             if int(xxx1)==0:
                     lbl_gen_fr3_1_value['text'] = 'ON'
@@ -136,25 +136,25 @@ def parser_GPIO_4relay():
         try:
             r = requests.get('http://192.168.0.120/')
             if r.status_code == 200:
-                parsing_server1.parsing_GPIO_4relay()
-                xxx1 = parsing_server1.parsing_GPIO_4relay()
-                xxx1 = parsing_server1.parsing_GPIO_4relay()
-                xxx1 = parsing_server1.parsing_GPIO_4relay()
+                # parsing_server1.parsing_GPIO_4relay()
+                # xxx1 = parsing_server1.parsing_GPIO_4relay()
+                # xxx1 = parsing_server1.parsing_GPIO_4relay()
+                # xxx1 = parsing_server1.parsing_GPIO_4relay()
                 xxx1 = parsing_server1.parsing_GPIO_4relay()
                 print('xxx1=' + xxx1)
-                if int(xxx1) == 0:
+                if int(xxx1) != 0:
                     lbl_gen_fr3_3_value['text'] = 'ON'
                 else:
                     lbl_gen_fr3_3_value['text'] = "OFF"
-                if int(xxx1) == 0:
+                if int(xxx1) != 0:
                     lbl_gen_fr3_4_value['text'] = 'ON'
                 else:
                     lbl_gen_fr3_4_value['text'] = "OFF"
-                if int(xxx1) == 0:
+                if int(xxx1) != 0:
                     lbl_gen_fr3_5_value['text'] = 'ON'
                 else:
                     lbl_gen_fr3_5_value['text'] = "OFF"
-                if int(xxx1) == 0:
+                if int(xxx1) != 0:
                     lbl_gen_fr3_6_value['text'] = 'ON'
                 else:
                     lbl_gen_fr3_6_value['text'] = "OFF"

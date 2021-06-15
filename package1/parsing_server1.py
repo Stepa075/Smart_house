@@ -69,10 +69,11 @@ def parsing_GPIO_4relay():
     f = open('4relay.txt')
     str_4relay = f.read()
     f.close()
-    print('str_4relay' + str_4relay)
-    str_4relay2 = str_4relay[str_4relay.find(";") + 1:]
-    str_4relay3 = str_4relay2[str_4relay2.find(":") + 1: str_4relay2.find(";")]
-    print('str_4relay3' + str_4relay3)
+    print('str_4relay= ' + str_4relay)
+    str_4relay2 = str_4relay[str_4relay.find(":") + 1:]
+    print("str_4relay2= " + str_4relay2)
+    str_4relay3 = str_4relay2[: str_4relay2.find(";")]
+    print('str_4relay3 exit out ' + str_4relay3)
   except:
     str_4relay3=-1
     pass
