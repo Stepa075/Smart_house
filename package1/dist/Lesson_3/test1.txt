@@ -1,0 +1,1 @@
+hostname:LightSensor;adci1:1024;
