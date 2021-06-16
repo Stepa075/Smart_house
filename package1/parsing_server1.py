@@ -71,18 +71,20 @@ def parsing_GPIO_4relay():
     f.close()
     print('str_4relay= ' + str_4relay)
     str_4relay2 = str_4relay[str_4relay.find(":") + 1:]
-    print("str_4relay2= " + str_4relay2)
-    str_4relay3 = str_4relay2[: str_4relay2.find(";")]
-    print('str_4relay3 exit out ' + str_4relay3)
+
+    r1 = str_4relay2[: str_4relay2.find(";")]
+    r2 = str_4relay[10:11]
+    r3 = str_4relay[18:19]
+    r4 = str_4relay[23:24]
+    relay_list = [r1, r2, r3, r4]
+    print('relay_list= ' + str(relay_list))
   except:
-    str_4relay3=-1
+
     pass
-  return str_4relay3
+  return relay_list
 
 
-# def pr():
-#   print(ESP_Light_Sensor)
+
+
 # if __name__ == "__main__":
-#    parsing_GPIO_Sadok()
-#    parsing_ESP()
-#    pr()
+# parsing_GPIO_4relay()
