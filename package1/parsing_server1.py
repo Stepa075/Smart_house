@@ -6,10 +6,10 @@ Sadok_Light: int=0
 def parsing_ESP():
   global ESP_Light_Sensor
   try:
-    url= "http://192.168.0.110/sensors/adci1/"
-    r= requests.get(url)
+    url = "http://192.168.0.110/sensors/adci1/"
+    r = requests.get(url)
     r.encoding = "UTF8"
-    # print(r.text)
+    # print('r.text= ' + r.text)
     with open('test.html', 'w') as output_file:
       output_file.write(r.text)
     with open('test1.txt', 'w') as output_file:
@@ -24,7 +24,9 @@ def parsing_ESP():
     ESP_Light_Sensor = int(str3)
 
   except:
-    str3=-1
+    url= 'http://192.168.0.110/configrst?st=1'
+    r.request.get(url)
+    str3=110
     pass
 
   return str3
@@ -52,7 +54,7 @@ def parsing_GPIO_Sadok():
     print('str_sadok3 ' + str(str_sad3))
 
   except:
-    str_sad3=-1
+    str_sad3=1
     pass
   return str_sad3
 
@@ -87,4 +89,4 @@ def parsing_GPIO_4relay():
 
 
 # if __name__ == "__main__":
-# parsing_GPIO_4relay()
+#  parsing_ESP()

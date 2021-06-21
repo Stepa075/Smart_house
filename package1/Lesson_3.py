@@ -125,7 +125,7 @@ def parser_GPIO_sadok():
             lbl_gen_fr3_1_value['text'] = 'ERROR'
         root.after(300000, parser_GPIO_sadok)
     except:
-        lbl_gen_fr3_1_value['text'] = 'Fucking ERROR!!!'
+        lbl_gen_fr3_1_value['text'] = 'No connect to ESP!'
         pass
         root.after(300000, parser_GPIO_sadok)
 
@@ -190,7 +190,7 @@ def check_req():
 def check_Light_sensor_conections():
     try:
         rl = requests.get('http://192.168.0.110/')
-        # print(r.status_code)
+        print('status_code Light_sensor_connection: ' + str(rl.status_code))
         if int(rl.status_code)==200:
             root.after(0, xxx)
             lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
