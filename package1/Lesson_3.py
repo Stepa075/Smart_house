@@ -5,7 +5,7 @@ from tkinter import *
 import parsing_server1
 import requests
 import logic_center
-
+import Recive_on_server
 
 def start_frame():
     frame_tumblers1_frame.place_forget()
@@ -166,9 +166,13 @@ def parser_GPIO_4relay():
             root.after(300000, parser_GPIO_4relay)
 
 def circle_function():
-    logic_center.logicks_Sadok_Light()
-    logic_center.logicks_4relay_Light()
-    print('circle running')
+    if Recive_on_server.parsing_server_response()[6]=='home':
+        logic_center.logicks_Sadok_Light()
+        logic_center.logicks_4relay_Light()
+        print('circle running')
+    else:
+        print('circle stopped, remote control')
+        logic_center.remote_control_install()
     root.after(600000, circle_function)
 
 def check_req():

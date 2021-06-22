@@ -1,6 +1,6 @@
 import requests
 import parsing_server1
-
+import Recive_on_server
 
 
 def logicks_Sadok_Light():
@@ -45,6 +45,21 @@ def logicks_4relay_Light():
 
     except:
         pass
+
+def remote_control_install():
+    if Recive_on_server.parsing_server_response()[1]== 'o':
+        url = 'http://192.168.0.100/gpio?st=0&pin=0'
+        requests.get(url)
+    else:
+        url = 'http://192.168.0.100/gpio?st=1&pin=0'
+        requests.get(url)
+
+
+
+
+
+
+
 
 
 def get_URL(URL):
