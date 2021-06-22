@@ -6,7 +6,7 @@ import parsing_server1
 import requests
 import logic_center
 import Recive_on_server
-
+import Send_to_server
 def start_frame():
     frame_tumblers1_frame.place_forget()
     frame_tumblers2_frame.place_forget()
@@ -166,13 +166,14 @@ def parser_GPIO_4relay():
             root.after(300000, parser_GPIO_4relay)
 
 def circle_function():
-    if Recive_on_server.parsing_server_response()[6]=='home':
+    if  Recive_on_server.parsing_server_response()[6]=='home':
         logic_center.logicks_Sadok_Light()
         logic_center.logicks_4relay_Light()
         print('circle running')
     else:
         print('circle stopped, remote control')
         logic_center.remote_control_install()
+    # Send_to_server.send_to_server()
     root.after(600000, circle_function)
 
 def check_req():
@@ -209,7 +210,8 @@ def check_Light_sensor_conections():
 
 
 def check_Server_sensor_conections():
-    try:
+     try:
+
         rg = requests.get("http://f0555107.xsph.ru/")  # резервный ('http://httpbin.org/get')
         print('check server ' + str(rg.status_code))
         if int(rg.status_code)==200:
@@ -217,11 +219,11 @@ def check_Server_sensor_conections():
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
         root.after(600000, check_Server_sensor_conections)
-    except:
+     except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
         pass
-        root.after(600000, check_Server_sensor_conections)
+     root.after(600000, check_Server_sensor_conections)
 
 
 # def check_Light_sensor_conections():
@@ -453,4 +455,5 @@ root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
 root.after(500, parser_GPIO_4relay)
 root.after(0, circle_function)
+root.after(5000, Send_to_server.send_to_server)
 root.mainloop()

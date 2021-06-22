@@ -52,7 +52,6 @@ def parsing_GPIO_Sadok():
     str_sad3 = str_sad2[str_sad2.find(":") + 1: str_sad2.find(";")]
     Sadok_Light=str_sad3
     print('str_sadok3 ' + str(str_sad3))
-
   except:
     str_sad3=1
     pass
@@ -60,6 +59,7 @@ def parsing_GPIO_Sadok():
 
 def parsing_GPIO_4relay():
 
+  global relay_list
   try:
     url = "http://192.168.0.120/gpioprint"
     r = requests.get(url)
@@ -81,8 +81,12 @@ def parsing_GPIO_4relay():
     relay_list = [r1, r2, r3, r4]
     print('relay_list= ' + str(relay_list))
   except:
-
-    pass
+      r1 = '0'
+      r2 = '0'
+      r3 = '0'
+      r4 = '0'
+      relay_list = [r1, r2, r3, r4]
+      pass
   return relay_list
 
 

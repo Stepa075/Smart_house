@@ -14,3 +14,8 @@ params = {'params': str(parsing_ESP()), 'params1': str(parsing_GPIO_Sadok()), 'p
 r = requests.get('http://localhost/test/index.php', params=params)
 r.encoding = "UTF8"
 print(r.text)
+
+
+
+# if __name__ == "__main__":
+#  parsing_ESP()
