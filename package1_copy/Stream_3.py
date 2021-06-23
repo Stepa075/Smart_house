@@ -1,13 +1,15 @@
+import threading
 from time import sleep
 
 import requests
 
 from package1_copy import Variables
 
-
+lock = threading.RLock()
 def read_flag_file():
 
   global lines
+  lock.acquire()
   try:
     url = "http://f0555107.xsph.ru/Flag.html"
     r = requests.get(url)
@@ -35,6 +37,8 @@ def read_flag_file():
   except:
     lines.append('0')
     pass
+  finally:
+      lock.release()
   sleep(70.0)
   read_flag_file()
   return lines

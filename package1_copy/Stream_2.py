@@ -1,11 +1,13 @@
+import threading
 from threading import Thread
 from time import sleep
 import requests
 from package1_copy import Variables
 
-
+lock = threading.RLock()
 def start1():
    sleep(5.0)
+   lock.acquire()
    try:
     r4_0 = Variables.parsing_GPIO_4relay
     r4_1 = str(r4_0[0])
@@ -22,12 +24,16 @@ def start1():
     r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
     r.encoding = "UTF8"
     print('start1 = Ok')
+    print(r.text)
    except:
-    params = {'params': '0', 'params1': '0', 'params2_1': '0','params2_2': '0', 'params2_3': '0', 'params2_4': '0', 'control': 'home'}
+    params = {'params': '0', 'params1': '0', 'params2_1': '0', 'params2_2': '0', 'params2_3': '0', 'params2_4': '0', 'control': 'home'}
     r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
     r.encoding = "UTF8"
+
     # print(r.text)
     pass
+   finally:
+       lock.release()
    sleep(60.0)
    start1()
 
@@ -35,6 +41,7 @@ def start1():
 def start2():
 
   global lines
+  lock.acquire()
   try:
     url = "http://f0555107.xsph.ru/hello.html"
     r = requests.get(url)
@@ -62,13 +69,15 @@ def start2():
   except:
     lines.append('0')
     pass
+  finally:
+      lock.release()
   sleep(70.0)
   start2()
   return lines
 
 
 def parsing_ESP():
-
+  lock.acquire()
   try:
     url = "http://192.168.0.110/sensors/adci1/"
     r = requests.get(url)
@@ -93,12 +102,14 @@ def parsing_ESP():
     str3=110
     Variables.parsing_ESP = int(str3)
     pass
+  finally:
+      lock.release()
   sleep(60.0)
   parsing_ESP()
   return str3
 
 def parsing_GPIO_Sadok():
-
+  lock.acquire()
   try:
 
     url = "http://192.168.0.100/gpioprint"
@@ -122,13 +133,14 @@ def parsing_GPIO_Sadok():
     str_sad3=1
     Variables.Sadok_Light = str_sad3
     pass
+  finally:
+      lock.release()
   sleep(30.0)
   parsing_GPIO_Sadok()
   return str_sad3
 
 def parsing_GPIO_4relay11():
-
-
+  lock.acquire()
   try:
     url = "http://192.168.0.120/gpioprint"
     r = requests.get(url)
@@ -159,6 +171,8 @@ def parsing_GPIO_4relay11():
       Variables.parsing_GPIO_4relay = relay_list
       print('Variables.parsing_GPIO_4relay =' + str(Variables.parsing_GPIO_4relay))
       pass
+  finally:
+      lock.release()
   sleep(30.0)
   parsing_GPIO_4relay11()
   return relay_list

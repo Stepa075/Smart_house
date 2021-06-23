@@ -1,3 +1,4 @@
+import threading
 from threading import Thread
 from time import sleep
 import requests
@@ -5,8 +6,9 @@ import requests
 
 from package1_copy import Variables
 
-
+lock = threading.RLock()
 def logicks_Sadok_Light():
+       lock.acquire()
        try:
            if int(Variables.parsing_ESP) <=100:
               url= Variables.GPIO_sad_on
@@ -19,9 +21,11 @@ def logicks_Sadok_Light():
 
        except:
            pass
-
+       finally:
+           lock.release()
 
 def logicks_4relay_Light():
+    lock.acquire()
     try:
         if int(Variables.parsing_ESP) <= 100:
             url = Variables.GPIO_4relay1_on
@@ -47,7 +51,8 @@ def logicks_4relay_Light():
     except:
         print('Except!')
         pass
-
+    finally:
+        lock.release()
 def remote_control_install():
 
     logicks_Sadok_Light()
