@@ -1,8 +1,8 @@
 from threading import Thread
 from time import sleep
 import requests
-import parsing_server1
-import Recive_on_server
+
+
 from package1_copy import Variables
 
 

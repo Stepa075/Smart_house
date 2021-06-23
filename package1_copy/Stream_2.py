@@ -1,7 +1,6 @@
 from threading import Thread
 from time import sleep
 import requests
-import parsing_server1
 from package1_copy import Variables
 
 
@@ -13,19 +12,13 @@ def start1():
     r4_2 = str(r4_0[1])
     r4_3 = str(r4_0[2])
     r4_4 = str(r4_0[3])
-    if Variables.receive_from_server[6] =='home':
-        params = {'params': str(Variables.parsing_ESP),
-                  'params1': str(Variables.Sadok_Light),
-                  'params2_1': str(Variables.parsing_GPIO_4relay[0]),
-                  'params2_2': str(Variables.parsing_GPIO_4relay[1]),
-                  'params2_3': str(Variables.parsing_GPIO_4relay[2]),
-                  'params2_4': str(Variables.parsing_GPIO_4relay[3]), 'control': 'home'}
-    else:
-        params = {'params': str(Variables.parsing_ESP), 'params1': str(Variables.Sadok_Light),
-                  'params2_1': str(Variables.parsing_GPIO_4relay[0]),
-                  'params2_2': str(Variables.parsing_GPIO_4relay[1]),
-                  'params2_3': str(Variables.parsing_GPIO_4relay[2]),
-                  'params2_4': str(Variables.parsing_GPIO_4relay[3]), 'control': 'server'}
+    params = {'params': str(Variables.parsing_ESP),
+              'params1': str(Variables.Sadok_Light),
+              'params2_1': str(Variables.parsing_GPIO_4relay[0]),
+              'params2_2': str(Variables.parsing_GPIO_4relay[1]),
+              'params2_3': str(Variables.parsing_GPIO_4relay[2]),
+              'params2_4': str(Variables.parsing_GPIO_4relay[3]), 'control': 'home'}
+
     r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
     r.encoding = "UTF8"
     print('start1 = Ok')
@@ -129,11 +122,11 @@ def parsing_GPIO_Sadok():
     str_sad3=1
     Variables.Sadok_Light = str_sad3
     pass
-  sleep(130.0)
+  sleep(30.0)
   parsing_GPIO_Sadok()
   return str_sad3
 
-def parsing_GPIO_4relay():
+def parsing_GPIO_4relay11():
 
 
   try:
@@ -156,6 +149,7 @@ def parsing_GPIO_4relay():
     r4 = str_4relay[23:24]
     relay_list = [r1, r2, r3, r4]
     Variables.parsing_GPIO_4relay = relay_list
+    print('Variables.parsing_GPIO_4relay =' + str(Variables.parsing_GPIO_4relay))
   except:
       r1 = '0'
       r2 = '0'
@@ -163,9 +157,10 @@ def parsing_GPIO_4relay():
       r4 = '0'
       relay_list = [r1, r2, r3, r4]
       Variables.parsing_GPIO_4relay = relay_list
+      print('Variables.parsing_GPIO_4relay =' + str(Variables.parsing_GPIO_4relay))
       pass
-  sleep(130.0)
-  parsing_GPIO_4relay()
+  sleep(30.0)
+  parsing_GPIO_4relay11()
   return relay_list
 
 

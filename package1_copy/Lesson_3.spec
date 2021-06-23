@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['Lesson_3.py'],
-             pathex=['D:\\Java work\\eclipse\\test\\package1'],
+             pathex=['D:\\Java work\\eclipse\\test\\package1_copy'],
              binaries=[],
              datas=[],
              hiddenimports=[],
