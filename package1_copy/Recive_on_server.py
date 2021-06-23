@@ -8,7 +8,7 @@ def parsing_server_response():
     url = "http://f0555107.xsph.ru/hello.html"
     r = requests.get(url)
     r.encoding = "UTF8"
-    print('r.text out= ' + r.text)
+    print('r.text = ' + r.text)
     with open('response_server.html', 'w') as output_file:
       output_file.write(r.text)
     with open('response_server.txt', 'w') as output_file:

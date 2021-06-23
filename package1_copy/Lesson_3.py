@@ -7,7 +7,6 @@ import requests
 import logic_center
 import Recive_on_server
 import Send_to_server
-
 def start_frame():
     frame_tumblers1_frame.place_forget()
     frame_tumblers2_frame.place_forget()
@@ -170,7 +169,6 @@ def circle_function():
     if  Recive_on_server.parsing_server_response()[6]=='home':
         logic_center.logicks_Sadok_Light()
         logic_center.logicks_4relay_Light()
-        Send_to_server.send_to_server()
         print('circle running')
     else:
         print('circle stopped, remote control')
@@ -220,7 +218,7 @@ def check_Server_sensor_conections():
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
-
+        root.after(600000, check_Server_sensor_conections)
      except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
