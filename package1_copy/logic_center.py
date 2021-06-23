@@ -1,18 +1,21 @@
+from threading import Thread
+from time import sleep
 import requests
 import parsing_server1
 import Recive_on_server
+from package1_copy import Variables
 
 
 def logicks_Sadok_Light():
        try:
-           if int(parsing_server1.parsing_ESP()) <=100:
-              url='http://192.168.0.100/gpio?st=0&pin=0'
+           if int(Variables.parsing_ESP) <=100:
+              url= Variables.GPIO_sad_on
               requests.get(url)
-              print('Night')
+              print('Night street')
            else:
-               url = 'http://192.168.0.100/gpio?st=1&pin=0'
+               url = Variables.GPIO_sad_off
                requests.get(url)
-               print('Day!')
+               print('Day street!')
 
        except:
            pass
@@ -20,46 +23,38 @@ def logicks_Sadok_Light():
 
 def logicks_4relay_Light():
     try:
-        if int(parsing_server1.parsing_ESP()) <= 100:
-            url = 'http://192.168.0.120/gpio?st=1&pin=0'
+        if int(Variables.parsing_ESP) <= 100:
+            url = Variables.GPIO_4relay1_on
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=1&pin=2'
+            url = Variables.GPIO_4relay2_on
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=1&pin=14'
+            url = Variables.GPIO_4relay3_on
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=1&pin=5'
+            url = Variables.GPIO_4relay4_on
             requests.get(url)
-
             print('4Relay Night')
         else:
-            url = 'http://192.168.0.120/gpio?st=0&pin=0'
+            url = Variables.GPIO_4relay1_off
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=0&pin=2'
+            url = Variables.GPIO_4relay2_off
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=0&pin=14'
+            url = Variables.GPIO_4relay3_off
             requests.get(url)
-            url = 'http://192.168.0.120/gpio?st=0&pin=5'
+            url = Variables.GPIO_4relay4_off
             requests.get(url)
-
             print('4 Relay Day!')
 
     except:
+        print('Except!')
         pass
 
 def remote_control_install():
-    if Recive_on_server.parsing_server_response()[1]== 'o':
-        url = 'http://192.168.0.100/gpio?st=0&pin=0'
-        requests.get(url)
-    else:
-        url = 'http://192.168.0.100/gpio?st=1&pin=0'
-        requests.get(url)
 
+    logicks_Sadok_Light()
+    logicks_4relay_Light()
 
-
-
-
-
-
+    sleep(10.0)
+    remote_control_install()
 
 
 def get_URL(URL):
@@ -77,3 +72,5 @@ def get_URL(URL):
     except:
         return None
         pass
+
+

@@ -1,12 +1,17 @@
 import ctypes
 import time
 from ctypes import wintypes
+from threading import Thread
 from tkinter import *
 import parsing_server1
 import requests
 import logic_center
 import Recive_on_server
 import Send_to_server
+from package1_copy import Variables
+from package1_copy.Stream_2 import start2, start1, parsing_ESP, parsing_GPIO_Sadok, parsing_GPIO_4relay
+
+
 def start_frame():
     frame_tumblers1_frame.place_forget()
     frame_tumblers2_frame.place_forget()
@@ -100,15 +105,16 @@ def check_Power():
 def xxx():
 
         try:
-            xxx1 = parsing_server1.parsing_ESP()
+            xxx1 = Variables.parsing_ESP
+                # parsing_server1.parsing_ESP()
             # print(xxx1)
             lbl_gen_fr_1_value['text'] = xxx1
             lbl_gen_fr_2_value['text'] = xxx1
-            # root.after(3000, xxx)
+            root.after(3000, xxx)
         except:
             lbl_gen_fr_1_value['text'] = 'Fucking ERROR!!!'
             pass
-            # root.after(3000, xxx)
+            root.after(3000, xxx)
 
 
 def parser_GPIO_sadok():
@@ -123,11 +129,11 @@ def parser_GPIO_sadok():
                     lbl_gen_fr3_1_value['text'] = "OFF"
         else:
             lbl_gen_fr3_1_value['text'] = 'ERROR'
-        root.after(300000, parser_GPIO_sadok)
+        root.after(5000, parser_GPIO_sadok)
     except:
         lbl_gen_fr3_1_value['text'] = 'No connect to ESP!'
         pass
-        root.after(300000, parser_GPIO_sadok)
+        root.after(5000, parser_GPIO_sadok)
 
 def parser_GPIO_4relay():
         try:
@@ -156,19 +162,20 @@ def parser_GPIO_4relay():
                 lbl_gen_fr3_4_value['text'] = 'ERROR'
                 lbl_gen_fr3_5_value['text'] = 'ERROR'
                 lbl_gen_fr3_6_value['text'] = 'ERROR'
-            root.after(300000, parser_GPIO_4relay)
+            root.after(10000, parser_GPIO_4relay)
         except:
             lbl_gen_fr3_3_value['text'] = 'Fucking ERROR!!!'
             lbl_gen_fr3_4_value['text'] = 'Fucking ERROR!!!'
             lbl_gen_fr3_5_value['text'] = 'Fucking ERROR!!!'
             lbl_gen_fr3_6_value['text'] = 'Fucking ERROR!!!'
             pass
-            root.after(300000, parser_GPIO_4relay)
+            root.after(10000, parser_GPIO_4relay)
 
 def circle_function():
     if  Recive_on_server.parsing_server_response()[6]=='home':
         logic_center.logicks_Sadok_Light()
         logic_center.logicks_4relay_Light()
+        Send_to_server.send_to_server()
         print('circle running')
     else:
         print('circle stopped, remote control')
@@ -197,7 +204,7 @@ def check_Light_sensor_conections():
         rl = requests.get('http://192.168.0.110/')
         print('status_code Light_sensor_connection: ' + str(rl.status_code))
         if int(rl.status_code)==200:
-            root.after(0, xxx)
+            # root.after(0, xxx)
             lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
         else:
             lbl_Light_sensor['text'] = 'Light sensor status: Disconnected, Error!'
@@ -218,7 +225,7 @@ def check_Server_sensor_conections():
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
-        root.after(600000, check_Server_sensor_conections)
+
      except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
@@ -445,6 +452,20 @@ button311.place()
 button312.place()
 button313.place()
 
+th = Thread(target=logic_center.remote_control_install, daemon=True)
+th.start()
+th1 = Thread(target=start2, daemon=True)
+th1.start()
+th = Thread(target=start1, daemon=True)
+th.start()
+th2 = Thread(target=parsing_ESP, daemon=True)
+th2.start()
+th3 = Thread(target=parsing_GPIO_Sadok, daemon=True)
+th3.start()
+th4 = Thread(target=parsing_GPIO_4relay, daemon=True)
+th4.start()
+
+
 root.after(0, start_frame)
 root.after(0, check_Power)
 root.after(0, check_req)
@@ -454,6 +475,7 @@ root.after(1000, update_time)
 root.title('Control panel')
 root.after(500, parser_GPIO_sadok)
 root.after(500, parser_GPIO_4relay)
-root.after(0, circle_function)
+# root.after(0, circle_function)
 root.after(5000, Send_to_server.send_to_server)
+root.after(0, xxx)
 root.mainloop()
