@@ -203,14 +203,12 @@ def check_Light_sensor_conections():
 
 def check_Server_sensor_conections():
     try:
-
         rg = requests.get("http://f0555107.xsph.ru/")  # резервный ('http://httpbin.org/get')
         print('check server ' + str(rg.status_code))
         if int(rg.status_code) == 200:
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
-
     except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
