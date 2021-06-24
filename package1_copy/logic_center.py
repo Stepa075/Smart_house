@@ -2,9 +2,7 @@ import threading
 from threading import Thread
 from time import sleep
 import requests
-
-
-from package1_copy import Variables
+import Variables
 
 lock = threading.RLock()
 def logicks_Sadok_Light():
@@ -20,6 +18,7 @@ def logicks_Sadok_Light():
                print('Day street!')
 
        except:
+           print('Except! logics sadok light')
            pass
        finally:
            lock.release()
@@ -49,10 +48,12 @@ def logicks_4relay_Light():
             print('4 Relay Day!')
 
     except:
-        print('Except!')
+        print('Except logics 4 relay!')
         pass
     finally:
         lock.release()
+def change_position_relay():
+    print(' написать change_position_relay()')
 
 def remote_control_install():
     lock.acquire()
@@ -64,6 +65,7 @@ def remote_control_install():
         pass
     sleep(20.0)
     remote_control_install()
+
 
 
 # def get_URL(URL):

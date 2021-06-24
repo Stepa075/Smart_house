@@ -5,7 +5,7 @@ from threading import Thread
 from tkinter import *
 import requests
 import logic_center
-from package1_copy import Variables
+import Variables
 from package1_copy.Stream_2 import start2, start1, parsing_ESP, parsing_GPIO_Sadok, parsing_GPIO_4relay11
 
 
@@ -112,28 +112,23 @@ def xxx():
 
 def parser_GPIO_sadok():
     try:
-        r = requests.get('http://192.168.0.100/')
-        if r.status_code == 200:
-            # parsing_server1.parsing_GPIO_Sadok()
+
             xxx1 = Variables.Sadok_Light
                 # parsing_server1.parsing_GPIO_Sadok()
             if int(xxx1) == 0:
                 lbl_gen_fr3_1_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_1_value['text'] = "OFF"
-        else:
-            lbl_gen_fr3_1_value['text'] = 'ERROR'
-        root.after(5000, parser_GPIO_sadok)
+
     except:
         lbl_gen_fr3_1_value['text'] = 'No connect to ESP!'
         pass
-        root.after(5000, parser_GPIO_sadok)
+    root.after(3000, parser_GPIO_sadok)
 
 
 def parser_GPIO_4relay():
     try:
-        r = requests.get('http://192.168.0.120/')
-        if r.status_code == 200:
+
             xxx1 = Variables.parsing_GPIO_4relay
             # parsing_server1.parsing_GPIO_4relay()
 
@@ -153,19 +148,14 @@ def parser_GPIO_4relay():
                 lbl_gen_fr3_6_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_6_value['text'] = "OFF"
-        else:
-            lbl_gen_fr3_3_value['text'] = 'ERROR'
-            lbl_gen_fr3_4_value['text'] = 'ERROR'
-            lbl_gen_fr3_5_value['text'] = 'ERROR'
-            lbl_gen_fr3_6_value['text'] = 'ERROR'
-        root.after(10000, parser_GPIO_4relay)
+
     except:
         lbl_gen_fr3_3_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_4_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_5_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_6_value['text'] = 'Fucking ERROR!!!'
         pass
-        root.after(10000, parser_GPIO_4relay)
+    root.after(3000, parser_GPIO_4relay)
 
 
 def check_req():

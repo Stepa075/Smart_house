@@ -5,7 +5,7 @@ from time import sleep
 import requests
 
 
-from package1_copy import Variables
+import Variables
 
 lock = threading.RLock()
 def start1():
@@ -70,6 +70,7 @@ def start2():
 
   except:
     lines.append('0')
+    print('Except! start2')
     pass
   finally:
       lock.release()
@@ -100,6 +101,7 @@ def parsing_ESP():
     Variables.parsing_ESP1 = int(str3)
     print('parsing_ESP = Ok')
   except:
+    print(' Except! parsing_ESP')
     url= 'http://192.168.0.110/configrst?st=1'
     r.request.get(url)
     str3=110
@@ -118,6 +120,7 @@ def parsing_GPIO_Sadok():
 
     url = "http://192.168.0.100/gpioprint"
     r = requests.get(url)
+    Variables.status_code_sadok = r.status_code
     r.encoding = "UTF8"
 
     with open('sadok.html', 'w') as output_file:
@@ -135,6 +138,7 @@ def parsing_GPIO_Sadok():
     Variables.Sadok_Light1 = str_sad3
     print('parsing_GPIO_Sadok = Ok ')
   except:
+    print(' Except! parsing_GPIO_Sadok')
     str_sad3=1
     Variables.Sadok_Light = str_sad3
     Variables.Sadok_Light1 = str_sad3
@@ -150,6 +154,7 @@ def parsing_GPIO_4relay11():
   try:
     url = "http://192.168.0.120/gpioprint"
     r = requests.get(url)
+    Variables.status_code_4relay = r.status_code
     r.encoding = "UTF8"
 
     with open('4relay.txt', 'w') as output_file:
@@ -176,7 +181,7 @@ def parsing_GPIO_4relay11():
       r4 = '0'
       relay_list = [r1, r2, r3, r4]
       Variables.parsing_GPIO_4relay = relay_list
-      print('Variables.parsing_GPIO_4relay =' + str(Variables.parsing_GPIO_4relay))
+      print('Except! parsing_GPIO_4relay11')
       pass
   finally:
       lock.release()

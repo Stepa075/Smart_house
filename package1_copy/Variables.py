@@ -40,3 +40,6 @@ response_flag_7 = ''
 parsing_ESP1 = 110
 parsing_GPIO_4relay1 = [r1, r2, r3, r4]
 Sadok_Light1 = 1
+
+status_code_sadok = 200
+status_code_4relay = 200
