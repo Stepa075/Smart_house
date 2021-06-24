@@ -1,25 +1,27 @@
+import gc
 import threading
 from threading import Thread
 from time import sleep
 import requests
+
+
 from package1_copy import Variables
 
 lock = threading.RLock()
 def start1():
-   sleep(5.0)
    lock.acquire()
    try:
-    r4_0 = Variables.parsing_GPIO_4relay
+    r4_0 = Variables.parsing_GPIO_4relay1
     r4_1 = str(r4_0[0])
     r4_2 = str(r4_0[1])
     r4_3 = str(r4_0[2])
     r4_4 = str(r4_0[3])
-    params = {'params': str(Variables.parsing_ESP),
-              'params1': str(Variables.Sadok_Light),
-              'params2_1': str(Variables.parsing_GPIO_4relay[0]),
-              'params2_2': str(Variables.parsing_GPIO_4relay[1]),
-              'params2_3': str(Variables.parsing_GPIO_4relay[2]),
-              'params2_4': str(Variables.parsing_GPIO_4relay[3]), 'control': 'home'}
+    params = {'params': str(Variables.parsing_ESP1),
+              'params1': str(Variables.Sadok_Light1),
+              'params2_1': r4_1,
+              'params2_2': r4_2,
+              'params2_3': r4_3,
+              'params2_4': r4_4, 'control': 'home'}
 
     r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
     r.encoding = "UTF8"
@@ -29,11 +31,11 @@ def start1():
     params = {'params': '0', 'params1': '0', 'params2_1': '0', 'params2_2': '0', 'params2_3': '0', 'params2_4': '0', 'control': 'home'}
     r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
     r.encoding = "UTF8"
-
-    # print(r.text)
+    print('except start1' + r.text)
     pass
    finally:
        lock.release()
+   gc.collect()
    sleep(60.0)
    start1()
 
@@ -95,12 +97,14 @@ def parsing_ESP():
     str2=str1[str1.find(";") + 1 : ]
     str3=str2[str2.find(":") + 1 : str2.find(";")]
     Variables.parsing_ESP = int(str3)
+    Variables.parsing_ESP1 = int(str3)
     print('parsing_ESP = Ok')
   except:
     url= 'http://192.168.0.110/configrst?st=1'
     r.request.get(url)
     str3=110
     Variables.parsing_ESP = int(str3)
+    Variables.parsing_ESP1 = int(str3)
     pass
   finally:
       lock.release()
@@ -128,10 +132,12 @@ def parsing_GPIO_Sadok():
     str_sad2 = str_sad[:str_sad.find(";") + 1]
     str_sad3 = str_sad2[str_sad2.find(":") + 1: str_sad2.find(";")]
     Variables.Sadok_Light=str_sad3
+    Variables.Sadok_Light1 = str_sad3
     print('parsing_GPIO_Sadok = Ok ')
   except:
     str_sad3=1
     Variables.Sadok_Light = str_sad3
+    Variables.Sadok_Light1 = str_sad3
     pass
   finally:
       lock.release()
@@ -161,6 +167,7 @@ def parsing_GPIO_4relay11():
     r4 = str_4relay[23:24]
     relay_list = [r1, r2, r3, r4]
     Variables.parsing_GPIO_4relay = relay_list
+    Variables.parsing_GPIO_4relay1 = relay_list
     print('Variables.parsing_GPIO_4relay =' + str(Variables.parsing_GPIO_4relay))
   except:
       r1 = '0'

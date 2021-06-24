@@ -36,3 +36,7 @@ response_flag_4 = ''
 response_flag_5 = ''
 response_flag_6 = ''
 response_flag_7 = ''
+
+parsing_ESP1 = 110
+parsing_GPIO_4relay1 = [r1, r2, r3, r4]
+Sadok_Light1 = 1

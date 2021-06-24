@@ -53,29 +53,33 @@ def logicks_4relay_Light():
         pass
     finally:
         lock.release()
+
 def remote_control_install():
-
-    logicks_Sadok_Light()
-    logicks_4relay_Light()
-
-    sleep(10.0)
+    lock.acquire()
+    try:
+        logicks_Sadok_Light()
+        logicks_4relay_Light()
+    finally:
+        lock.release()
+        pass
+    sleep(20.0)
     remote_control_install()
 
 
-def get_URL(URL):
-    try:
-        url = URL
-        r = requests.get(url)
-        r.encoding = "UTF8"
-        with open('response.txt', 'w') as output_file:
-          output_file.write(r.text)
-
-        f = open('response.txt')
-        response=f.read()
-        f.close()
-        return response
-    except:
-        return None
-        pass
+# def get_URL(URL):
+#     try:
+#         url = URL
+#         r = requests.get(url)
+#         r.encoding = "UTF8"
+#         with open('response.txt', 'w') as output_file:
+#           output_file.write(r.text)
+#
+#         f = open('response.txt')
+#         response=f.read()
+#         f.close()
+#         return response
+#     except:
+#         return None
+#         pass
 
 
