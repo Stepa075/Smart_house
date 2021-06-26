@@ -58,6 +58,7 @@ def logicks_4relay_Light():
             pass
         finally:
             lock.release()
+
 def change_position_relay():
     print(' написать change_position_relay()')
 
@@ -100,5 +101,4 @@ def get_URL():
             Variables.Response_URL = '0'
             sleep(5.0)
             pass
-
         return response

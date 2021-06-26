@@ -1,10 +1,7 @@
 import gc
 import threading
-from threading import Thread
 from time import sleep
 import requests
-
-
 import Variables
 
 lock = threading.RLock()
@@ -81,12 +78,14 @@ def start2():
             pass
           finally:
               lock.release()
+          return lines
     sleep(70.0)
     start2()
-    return lines
+
 
 
 def parsing_ESP():
+  global str3
   a = 1
   while a == 1:
           lock.acquire()
@@ -121,9 +120,10 @@ def parsing_ESP():
             pass
           finally:
               lock.release()
+          return str3
   sleep(60.0)
   parsing_ESP()
-  return str3
+
 
 def parsing_GPIO_Sadok():
    a = 1
@@ -160,9 +160,10 @@ def parsing_GPIO_Sadok():
             pass
           finally:
               lock.release()
+          return str_sad3
    sleep(30.0)
    parsing_GPIO_Sadok()
-   return str_sad3
+
 
 def parsing_GPIO_4relay11():
   a = 1
@@ -204,9 +205,10 @@ def parsing_GPIO_4relay11():
               pass
           finally:
               lock.release()
+          return relay_list
   sleep(30.0)
   parsing_GPIO_4relay11()
-  return relay_list
+
 
 
 
