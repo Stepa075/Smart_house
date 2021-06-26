@@ -1,5 +1,4 @@
 
-
 send_to_server = ''
 receive_from_server = []
 receive_from_server1 = 0
@@ -43,3 +42,6 @@ Sadok_Light1 = 1
 
 status_code_sadok = 200
 status_code_4relay = 200
+
+URL = ''
+Response_URl = ''
