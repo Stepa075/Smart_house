@@ -6,6 +6,7 @@ from tkinter import *
 import requests
 from logic_center import remote_control_install
 import Variables
+import gc
 from Stream_2 import start2, start1, parsing_ESP, parsing_GPIO_Sadok, parsing_GPIO_4relay11
 
 
@@ -103,75 +104,86 @@ def xxx():
         xxx1 = Variables.parsing_ESP
         lbl_gen_fr_1_value['text'] = xxx1
         lbl_gen_fr_2_value['text'] = xxx1
-        root.after(3000, xxx)
+        del xxx1
+        print('xxx')
+        gc.collect()
+        # root.after(3000, xxx)
     except:
         lbl_gen_fr_1_value['text'] = 'Fucking ERROR!!!'
         pass
-        root.after(3000, xxx)
+        gc.collect()
+        # root.after(3000, xxx)
 
 
 def parser_GPIO_sadok():
     try:
 
             xxx1 = Variables.Sadok_Light
-                # parsing_server1.parsing_GPIO_Sadok()
+
             if int(xxx1) == 0:
                 lbl_gen_fr3_1_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_1_value['text'] = "OFF"
-
+            del xxx1
+            print('parser_GPIO_sadok')
     except:
         lbl_gen_fr3_1_value['text'] = 'No connect to ESP!'
         pass
-    root.after(3000, parser_GPIO_sadok)
+    gc.collect()
+    # root.after(3000, parser_GPIO_sadok)
 
 
 def parser_GPIO_4relay():
     try:
-
-            xxx1 = Variables.parsing_GPIO_4relay
-            # parsing_server1.parsing_GPIO_4relay()
-
-            if int(xxx1[0]) != 0:
+            if int(Variables.parsing_GPIO_4relay_0) != 0:
                 lbl_gen_fr3_3_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_3_value['text'] = "OFF"
-            if int(xxx1[1]) != 0:
+            if int(Variables.parsing_GPIO_4relay_1) != 0:
                 lbl_gen_fr3_4_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_4_value['text'] = "OFF"
-            if int(xxx1[2]) != 0:
+            if int(Variables.parsing_GPIO_4relay_2) != 0:
                 lbl_gen_fr3_5_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_5_value['text'] = "OFF"
-            if int(xxx1[3]) != 0:
+            if int(Variables.parsing_GPIO_4relay_3) != 0:
                 lbl_gen_fr3_6_value['text'] = 'ON'
             else:
                 lbl_gen_fr3_6_value['text'] = "OFF"
-
+            print('parser_GPIO_4relay')
+            gc.collect()
     except:
         lbl_gen_fr3_3_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_4_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_5_value['text'] = 'Fucking ERROR!!!'
         lbl_gen_fr3_6_value['text'] = 'Fucking ERROR!!!'
         pass
-    root.after(3000, parser_GPIO_4relay)
+    finally:
+        gc.collect()
+        # root.after(3000, parser_GPIO_4relay)
 
 
 def check_req():
     try:
-        r = requests.get('https://google.com/')  # резервный ('http://httpbin.org/get')
-        print('google.com ' + str(r.status_code))
-        if int(r.status_code) == 200:
+        # r = requests.get('https://google.com/')  # резервный ('http://httpbin.org/get')
+        # print('check_reg ' + str(r.status_code))
+        xxx1=Variables.status_code_check_req
+        if Variables.status_code_check_req == 200:
             lbl_Internet_sensor['text'] = 'Internet sensor status: Connected, Ok'
+            print('check_reg')
         else:
             lbl_Internet_sensor['text'] = 'Internet sensor status: Disconnected, Error!'
-        root.after(300000, check_req)
+            print('check_reg')
+        gc.collect()
+        # root.after(3000, check_req)
     except:
         print('except! Internet')
         lbl_Internet_sensor['text'] = 'Internet sensor status: Error!'
         pass
-        root.after(300000, check_req)
+    finally:
+        gc.collect()
+        # root.after(3000, check_req)
 
 
 def check_Light_sensor_conections():
@@ -183,12 +195,16 @@ def check_Light_sensor_conections():
             lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
         else:
             lbl_Light_sensor['text'] = 'Light sensor status: Disconnected, Error!'
-        root.after(600000, check_Light_sensor_conections)
+        # root.after(1000, check_Light_sensor_conections)
+        rl.close()
+        del rl
+        gc.collect()
     except:
         print('except! Light sensor')
         lbl_Light_sensor['text'] = 'Light sensor status: Error!'
         pass
-        root.after(600000, check_Light_sensor_conections)
+        gc.collect()
+        # root.after(1000, check_Light_sensor_conections)
 
 
 def check_Server_sensor_conections():
@@ -199,11 +215,14 @@ def check_Server_sensor_conections():
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
+        rg.close()
+        del rg
     except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
         pass
-    root.after(600000, check_Server_sensor_conections)
+    gc.collect()
+    # root.after(1000, check_Server_sensor_conections)
 
 
 def update_time():
@@ -212,6 +231,15 @@ def update_time():
 
     # run `update_time` again after 1000ms (1s)
     root.after(1000, update_time)  # function name without ()
+def start_function():
+    check_Server_sensor_conections()
+    check_Light_sensor_conections()
+    check_req()
+    parser_GPIO_4relay()
+    parser_GPIO_sadok()
+    xxx()
+    gc.collect()
+    root.after(2000, start_function)
 
 
 root = Tk()
@@ -411,27 +439,17 @@ button311.place()
 button312.place()
 button313.place()
 
-th = Thread(target=remote_control_install, daemon=True)
-th.start()
-th1 = Thread(target=start2, daemon=True)
-th1.start()
-th = Thread(target=start1, daemon=True)
-th.start()
-th2 = Thread(target=parsing_ESP, daemon=True)
-th2.start()
-th3 = Thread(target=parsing_GPIO_Sadok, daemon=True)
-th3.start()
-th4 = Thread(target=parsing_GPIO_4relay11, daemon=True)
-th4.start()
 
+
+root.after(0, start_function)
 root.after(0, start_frame)
 root.after(0, check_Power)
-root.after(0, check_req)
-root.after(2000, check_Light_sensor_conections)
-root.after(1000, check_Server_sensor_conections)
+# root.after(0, check_req)
+# root.after(2000, check_Light_sensor_conections)
+# root.after(1000, check_Server_sensor_conections)
 root.after(1000, update_time)
 root.title('Control panel')
-root.after(500, parser_GPIO_sadok)
-root.after(500, parser_GPIO_4relay)
-root.after(0, xxx)
+# root.after(500, parser_GPIO_sadok)
+# root.after(500, parser_GPIO_4relay)
+# root.after(0, xxx)
 root.mainloop()

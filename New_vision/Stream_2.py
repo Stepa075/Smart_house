@@ -2,43 +2,52 @@ import gc
 import threading
 from time import sleep
 import requests
+from urllib3.exceptions import MaxRetryError
+
 import Variables
 
 lock = threading.RLock()
 def start1():
-    a=1
-    while a==1:
-        lock.acquire()
-        try:
-            r4_0 = Variables.parsing_GPIO_4relay1
-            r4_1 = str(r4_0[0])
-            r4_2 = str(r4_0[1])
-            r4_3 = str(r4_0[2])
-            r4_4 = str(r4_0[3])
-            params = {'params': str(Variables.parsing_ESP1),
-                      'params1': str(Variables.Sadok_Light1),
-                      'params2_1': r4_1,
-                      'params2_2': r4_2,
-                      'params2_3': r4_3,
-                      'params2_4': r4_4, 'control': 'home'}
+   x=1
+   while x==1:
+        a=1
+        while a==1:
+            lock.acquire()
+            try:
+                r4_0 = Variables.parsing_GPIO_4relay1
+                r4_1 = str(r4_0[0])
+                r4_2 = str(r4_0[1])
+                r4_3 = str(r4_0[2])
+                r4_4 = str(r4_0[3])
+                params = {'params': str(Variables.parsing_ESP1),
+                          'params1': str(Variables.Sadok_Light1),
+                          'params2_1': r4_1,
+                          'params2_2': r4_2,
+                          'params2_3': r4_3,
+                          'params2_4': r4_4, 'control': 'home'}
 
-            r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
-            r.encoding = "UTF8"
-            print('start1 = Ok')
-            print(r.text)
-            break
-        except:
-            params = {'params': '0', 'params1': '0', 'params2_1': '0', 'params2_2': '0', 'params2_3': '0', 'params2_4': '0', 'control': 'home'}
-            r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
-            r.encoding = "UTF8"
-            print('except start1' + r.text)
-            sleep(5.0)
-            pass
-        finally:
-          lock.release()
-    gc.collect()
-    sleep(60.0)
-    start1()
+                r = requests.get('http://f0555107.xsph.ru/index.php', timeout=3.00, params=params)
+                r.encoding = "UTF8"
+                print('start1 = Ok')
+                print(r.text)
+                r.close()
+                break
+            except TimeoutError:
+                print('start1 Timeout Error!')
+                # params = {'params': '0', 'params1': '0', 'params2_1': '0', 'params2_2': '0', 'params2_3': '0', 'params2_4': '0', 'control': 'home'}
+                # r = requests.get('http://f0555107.xsph.ru/index.php', params=params)
+                # r.encoding = "UTF8"
+                # print('except start1' + r.text)
+                sleep(5.0)
+            except MaxRetryError:
+                sleep(600.0)
+            except ConnectionError:
+                sleep(600.0)
+            finally:
+              lock.release()
+        gc.collect()
+        sleep(60.0)
+
 
 
 def start2():
