@@ -1,3 +1,5 @@
+from datetime import datetime
+
 send_to_server = ''
 receive_from_server = []
 receive_from_server1 = 0
@@ -43,8 +45,11 @@ parsing_ESP1 = 110
 parsing_GPIO_4relay1 = [r1, r2, r3, r4]
 Sadok_Light1 = 1
 
-status_code_sadok = 200
-status_code_4relay = 200
-status_code_check_req = 200
+status_code_light_sensor = 0
+status_code_sadok = 0
+status_code_4relay = 0
+status_code_check_req = 0
+status_code_server_connections = 0
+time_now = datetime.now().strftime("%H:%M:%S")
 URL = ''
 Response_URl = ''

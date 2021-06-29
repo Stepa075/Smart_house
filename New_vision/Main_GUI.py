@@ -1,15 +1,14 @@
 import ctypes
+import gc
 import time
 from ctypes import wintypes
 from threading import Thread
 from tkinter import *
+
 import requests
 
-from New_vision import logic_center, Stream_2
-from logic_center import remote_control_install
 import Variables
-import gc
-from Stream_2 import start2, start1, parsing_ESP, parsing_GPIO_Sadok, parsing_GPIO_4relay11
+from New_vision import Stream_2, logic_center
 
 
 def start_frame():
@@ -17,7 +16,7 @@ def start_frame():
     frame_tumblers2_frame.place_forget()
     frame_tumblers3_frame.place_forget()
     frame_tumblers_frame.place(x=18, y=225, width=765, height=355)
-    print('def_start')
+    print('def_start_frame')
 
 
 def general_menu(*event):
@@ -102,37 +101,43 @@ def check_Power():
 
 
 def xxx():
+
     try:
-        xxx1 = Variables.parsing_ESP
+        xxx1: int = Variables.parsing_ESP
         lbl_gen_fr_1_value['text'] = xxx1
         lbl_gen_fr_2_value['text'] = xxx1
+        print('xxx= ' + str(xxx1))
         del xxx1
-        print('xxx')
         gc.collect()
-        # root.after(3000, xxx)
+        # root.after(5000, xxx)
     except:
         lbl_gen_fr_1_value['text'] = 'Fucking ERROR!!!'
-        pass
+        print('xxx= except!')
         gc.collect()
-        # root.after(3000, xxx)
+    root.after(10000, xxx)
 
 
 def parser_GPIO_sadok():
     try:
-
             xxx1 = Variables.Sadok_Light
-
-            if int(xxx1) == 0:
+            if xxx1 == 0:
                 lbl_gen_fr3_1_value['text'] = 'ON'
-            else:
+                print('parser_GPIO_sadok called ON')
+            elif xxx1 == 1:
                 lbl_gen_fr3_1_value['text'] = "OFF"
+                print('parser_GPIO_sadok called OFF')
+            elif xxx1 == 2:
+                lbl_gen_fr3_1_value['text'] = "Bad response!"
             del xxx1
-            print('parser_GPIO_sadok')
+            gc.collect()
+    except ValueError:
+        lbl_gen_fr3_1_value['text'] = str(Variables.Sadok_Light)
+        print('parser_GPIO_sadok ValueError= ' + str(Variables.Sadok_Light))
     except:
-        lbl_gen_fr3_1_value['text'] = 'No connect to ESP!'
-        pass
+        lbl_gen_fr3_1_value['text'] = 'Fucking ERROR!!!'
+        print('Parser_GPIO_sadok= except!')
     gc.collect()
-    # root.after(3000, parser_GPIO_sadok)
+    root.after(10000, parser_GPIO_sadok)
 
 
 def parser_GPIO_4relay():
@@ -168,15 +173,16 @@ def parser_GPIO_4relay():
 
 def check_req():
     try:
-        # r = requests.get('https://google.com/')  # резервный ('http://httpbin.org/get')
-        # print('check_reg ' + str(r.status_code))
-        xxx1=Variables.status_code_check_req
-        if Variables.status_code_check_req == 200:
+        r = requests.get('https://google.com/')  # резервный ('http://httpbin.org/get')
+        print('check_reg ' + str(r.status_code))
+
+        if r.status_code == 200:
             lbl_Internet_sensor['text'] = 'Internet sensor status: Connected, Ok'
             print('check_reg')
         else:
             lbl_Internet_sensor['text'] = 'Internet sensor status: Disconnected, Error!'
             print('check_reg')
+        Variables.status_code_check_req = r.status_code
         gc.collect()
         # root.after(3000, check_req)
     except:
@@ -190,26 +196,29 @@ def check_req():
 
 def check_Light_sensor_conections():
     try:
-        rl = requests.get('http://192.168.0.110/')
+        rl = requests.get('http://192.168.0.110/', timeout=3.0)
         print('status_code Light_sensor_connection: ' + str(rl.status_code))
         if int(rl.status_code) == 200:
             # root.after(0, xxx)
             lbl_Light_sensor['text'] = 'Light sensor status: Connected, Ok'
         else:
             lbl_Light_sensor['text'] = 'Light sensor status: Disconnected, Error!'
-        # root.after(1000, check_Light_sensor_conections)
+        Variables.status_code_light_sensor = rl.status_code
         rl.close()
         del rl
         gc.collect()
-    except:
-        print('except! Light sensor')
+    except TimeoutError:
+        print('except timeout! Light sensor')
         lbl_Light_sensor['text'] = 'Light sensor status: Error!'
-        pass
+    except ConnectionError:
+        print('except connection error!')
+
         gc.collect()
         # root.after(1000, check_Light_sensor_conections)
 
 
 def check_Server_sensor_conections():
+
     try:
         rg = requests.get("http://f0555107.xsph.ru/")  # резервный ('http://httpbin.org/get')
         print('check server ' + str(rg.status_code))
@@ -217,12 +226,14 @@ def check_Server_sensor_conections():
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
+        Variables.status_code_server_connections = rg.status_code
         rg.close()
         del rg
     except:
         print('except! Server')
         lbl_Server_sensor['text'] = 'Server sensor status: Error!'
         pass
+
     gc.collect()
     # root.after(1000, check_Server_sensor_conections)
 
@@ -238,11 +249,20 @@ def start_function():
     check_Light_sensor_conections()
     check_req()
     parser_GPIO_4relay()
-    parser_GPIO_sadok()
-    xxx()
+    # parser_GPIO_sadok()
+    # xxx()
     gc.collect()
-    root.after(2000, start_function)
+    root.after(300000, start_function)
 
+def start_some_function():
+    Stream_2.parsing_ESP()
+    Stream_2.parsing_GPIO_Sadok()
+    Stream_2.parsing_GPIO_4relay11()
+    root.after(20000, start_some_function)
+
+def start_logics_function():
+    logic_center.logics_Sadok_Light()
+    root.after(21000, start_logics_function)
 
 root = Tk()
 setwindow(root)
@@ -441,21 +461,23 @@ button311.place()
 button312.place()
 button313.place()
 
-# th = Thread(target=logic_center.remote_control_install, daemon=True)
-# th.start()
-# th1 = Thread(target=Stream_2.start2, daemon=True)
-# th1.start()
+
+
 th = Thread(target=Stream_2.start1, daemon=True)
 th.start()
-# th2 = Thread(target=Stream_2.parsing_ESP, daemon=True)
-# th2.start()
-# th3 = Thread(target=Stream_2.parsing_GPIO_Sadok, daemon=True)
-# th3.start()
-# th4 = Thread(target=Stream_2.parsing_GPIO_4relay11, daemon=True)
-# th4.start()
+th1 = Thread(target=Stream_2.start2, daemon=True)
+th1.start()
+th2 = Thread(target=Stream_2.parsing_ESP, daemon=True)
+th2.start()
+th3 = Thread(target=Stream_2.parsing_GPIO_Sadok, daemon=True)
+th3.start()
+th4 = Thread(target=Stream_2.parsing_GPIO_4relay11, daemon=True)
+th4.start()
 
 
 root.after(0, start_function)
+root.after(0, start_some_function)
+root.after(0, start_logics_function)
 root.after(0, start_frame)
 root.after(0, check_Power)
 # root.after(0, check_req)
@@ -465,5 +487,6 @@ root.after(1000, update_time)
 root.title('Control panel')
 # root.after(500, parser_GPIO_sadok)
 # root.after(500, parser_GPIO_4relay)
-# root.after(0, xxx)
+root.after(0, xxx)
+root.after(0, parser_GPIO_sadok)
 root.mainloop()

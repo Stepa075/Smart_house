@@ -215,6 +215,7 @@ def check_Server_sensor_conections():
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
         else:
             lbl_Server_sensor['text'] = 'Server sensor status: Disconnected, Error!'
+        Variables.status_code_server_connections = rg.status_code
         rg.close()
         del rg
     except:
@@ -239,7 +240,7 @@ def start_function():
     parser_GPIO_sadok()
     xxx()
     gc.collect()
-    root.after(2000, start_function)
+    root.after(300000, start_function)
 
 
 root = Tk()
