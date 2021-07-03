@@ -58,14 +58,14 @@ def logics_4relay_Light():
                 if Variables.status_code_4relay == 200:
                     if str(Variables.GPIO_4Relay1_flag) == '2':
                         if int(Variables.parsing_ESP) <= 100:
-                            if Variables.parsing_GPIO_4relay_0 == '0':
+                            if Variables.r1 == '0':
                                 c = Variables.GPIO_4relay1_on
                                 requests.get(c)
                                 print('4Relay 1Relay set ON!')
                             else:
                                 print('All Ok! 4Relay 1Relay ON!')
                         else:
-                            if Variables.parsing_GPIO_4relay_0 == '1':
+                            if Variables.r1 == '1':
                                 d = Variables.GPIO_4relay1_off
                                 requests.get(d)
                                 print('4 Relay 1Relay set OFF!')
@@ -84,14 +84,14 @@ def logics_4relay_Light():
 
                     if str(Variables.GPIO_4Relay2_flag) == '2':
                         if int(Variables.parsing_ESP) <= 100:
-                            if Variables.parsing_GPIO_4relay_1 == '0':
+                            if Variables.r2 == '0':
                                 g = Variables.GPIO_4relay2_on
                                 requests.get(g)
                                 print('4Relay 2Relay set ON!')
                             else:
                                 print('All Ok! 4Relay 2Relay ON!')
                         else:
-                            if Variables.parsing_GPIO_4relay_1 == '1':
+                            if Variables.r2 == '1':
                                 h = Variables.GPIO_4relay2_off
                                 requests.get(h)
                                 print('4 Relay 2Relay set OFF!')
@@ -110,14 +110,14 @@ def logics_4relay_Light():
 
                 if str(Variables.GPIO_4Relay3_flag) == '2':
                     if int(Variables.parsing_ESP) <= 100:
-                        if Variables.parsing_GPIO_4relay_2 == '0':
+                        if Variables.r3 == '0':
                             k = Variables.GPIO_4relay3_on
                             requests.get(k)
                             print('4Relay 3Relay set ON!')
                         else:
                             print('All Ok! 4Relay 3Relay ON!')
                     else:
-                        if Variables.parsing_GPIO_4relay_2 == '1':
+                        if Variables.r3 == '1':
                             l = Variables.GPIO_4relay3_off
                             requests.get(l)
                             print('4 Relay 3Relay set OFF!')
@@ -136,14 +136,14 @@ def logics_4relay_Light():
 
                 if str(Variables.GPIO_4Relay4_flag) == '2':
                     if int(Variables.parsing_ESP) <= 100:
-                        if Variables.parsing_GPIO_4relay_3 == '0':
+                        if Variables.r4 == '0':
                             o = Variables.GPIO_4relay4_on
                             requests.get(o)
                             print('4Relay 4Relay set ON!')
                         else:
                             print('All Ok! 4Relay 4Relay ON!')
                     else:
-                        if Variables.parsing_GPIO_4relay_3 == '1':
+                        if Variables.r4 == '1':
                             p = Variables.GPIO_4relay4_off
                             requests.get(p)
                             print('4 Relay 4Relay set OFF!')

@@ -158,7 +158,7 @@ def parser_GPIO_4relay():
             lbl_gen_fr3_6_value['text'] = 'ON'
         else:
             lbl_gen_fr3_6_value['text'] = "OFF"
-        print('parser_GPIO_4relay')
+        print('parser_GPIO_4relay running')
         gc.collect()
     except:
         lbl_gen_fr3_3_value['text'] = 'Fucking ERROR!!!'
@@ -249,19 +249,20 @@ def start_function():
     check_Server_sensor_conections()
     check_Light_sensor_conections()
     check_req()
-    parser_GPIO_sadok()
-    parser_GPIO_4relay()
+
     gc.collect()
     root.after(300000, start_function)
 
 
 def start_some_function():
+    parser_GPIO_sadok()
+    parser_GPIO_4relay()
     # Stream_2.parsing_ESP()
     # Stream_2.parsing_GPIO_Sadok()
     # Stream_2.parsing_GPIO_4relay11()
     # Stream_2.start1()
     # Stream_2.start2()
-    root.after(30000, start_some_function)
+    root.after(5000, start_some_function)
 
 
 def start_logics_function():
@@ -483,7 +484,7 @@ th6 = Thread(target=logic_center.logics_4relay_Light, daemon=True)
 th6.start()
 
 root.after(0, start_function)
-# root.after(0, start_some_function)
+root.after(0, start_some_function)
 # root.after(0, start_logics_function)
 root.after(0, start_frame)
 root.after(0, check_Power)
