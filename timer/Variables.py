@@ -1,4 +1,6 @@
 import multiprocessing
+import os
+import sys
 import this
 from multiprocessing import Process
 from threading import Thread
@@ -25,15 +27,12 @@ music_play = ''
 show_info = ''
 
 
-def message():
-    global music_play
-    music_play = 'play'
-    th1 = Thread(target=run_mp3_by_time_is_gone, daemon=True)
-    th1.start()
-    music_play = messagebox.showinfo('Python Timer by Stepa075', 'Таймер: время вышло!')
+def warning_messege():
+    messagebox.showwarning('Python Timer by Stepa075', "В поля ввода часов, минут или секунд введены не цифры! "
+                                                       "Повторите пожалуйста ввод")
+
 
 def run_mp3_by_time_is_gone():
-
     pygame.mixer.init()
     pygame.mixer.music.load("sirena.mp3")
     pygame.mixer.music.play()
@@ -45,14 +44,23 @@ def run_mp3_by_time_is_gone():
         if music_play == 'ok':
             # pyglet.app.exit()
             pygame.mixer.music.stop()
-            print( 'while= ' + music_play)
+            print('while= ' + music_play)
         # elif show_info == 'play':
         #     pygame.mixer.music.play()
         # break
         sleep(1.0)
 
-def run_mp3():
 
+def message():
+    global music_play
+    music_play = 'play'
+    th1 = Thread(target=run_mp3_by_time_is_gone, daemon=True)
+    th1.start()
+    music_play = messagebox.showwarning('Python Timer by Stepa075', 'Таймер: время вышло!')
+    # os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+def run_mp3():
     pygame.mixer.init()
     pygame.mixer.music.load("brigada.mp3")
     pygame.mixer.music.play()
@@ -64,13 +72,11 @@ def run_mp3():
         if show_info == 'ok':
             # pyglet.app.exit()
             pygame.mixer.music.stop()
-            print( 'while= ' + show_info)
+            print('while= ' + show_info)
         # elif show_info == 'play':
         #     pygame.mixer.music.play()
         # break
         sleep(1.0)
-
-
 
 
 def about():
@@ -81,7 +87,6 @@ def about():
     # proc.start()
     th = Thread(target=run_mp3, daemon=True)
     th.start()
-
 
     show_info = messagebox.showinfo('About: Python Timer by Stepa075',
                                     ' Данный таймер является дополнением к '

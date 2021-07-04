@@ -45,6 +45,7 @@ def circle_request():
     Variables.h = spin_hour.get()
     Variables.m = spin_min.get()
     Variables.s = spin_sec.get()
+    print('Time variables= ' + str(Variables.h) + ' ' +  str(Variables.m) + ' ' +  str(Variables.s))
     Variables.sound = check_cb.get()
     print('cb_sound ' + str(check_cb.get()))
     Variables.input_combo_box = combo_box.current()

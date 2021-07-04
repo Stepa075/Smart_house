@@ -38,6 +38,7 @@ def timer_tick():
             sleep(1.0)
         print('Finish Timer!')
         do_it_by_end_timer()
+        break
 
 
 
@@ -69,12 +70,16 @@ def do_it_by_end_timer():
 
 
 def start_timer():
-    global timer_seconds
-    print('Start timer!')
-    Variables.stop_timer = False
-    timer_seconds = (int(Variables.h) * 3600) + (int(Variables.m) * 60) + int(Variables.s)
-    # timer_start_pause()
-    # timer_tick()
-    th = Thread(target=timer_tick, daemon=True)
-    th.start()
-    # show_timer()
+    try:
+        global timer_seconds
+        print('Start timer!')
+        Variables.stop_timer = False
+        timer_seconds = (int(Variables.h) * 3600) + (int(Variables.m) * 60) + int(Variables.s)
+        # timer_start_pause()
+        # timer_tick()
+        th = Thread(target=timer_tick, daemon=True)
+        th.start()
+        # show_timer()
+    except ValueError:
+        Variables.warning_messege()
+        pass
