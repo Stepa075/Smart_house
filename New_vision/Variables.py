@@ -55,5 +55,15 @@ status_code_4relay = 0
 status_code_check_req = 0
 status_code_server_connections = 0
 time_now = datetime.now().strftime("%H:%M:%S")
+time_for_program_start = ''
 URL = ''
 Response_URl = ''
+
+# pump variables:
+gerkon_down = 0
+gerkon_up = 0
+gerkon_alarm = 0
+status = 'Updating...'
+Position_relay1_on_off = '0'
+Position_relay2 = '0'
+Position_relay3_alarm = '0'

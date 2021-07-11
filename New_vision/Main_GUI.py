@@ -4,6 +4,7 @@ import time
 from ctypes import wintypes
 from threading import Thread
 from tkinter import *
+from tkinter.font import BOLD
 
 import requests
 
@@ -11,6 +12,9 @@ import Variables
 
 import Stream_2
 import logic_center
+import reading_COM
+from New_vision import timer_for_control_panel
+
 
 def start_frame():
     frame_tumblers1_frame.place_forget()
@@ -104,8 +108,27 @@ def check_Power():
 def xxx():
     try:
         xxx1: int = Variables.parsing_ESP
+        status1 = Variables.status
+        xxx2 = Variables.Position_relay1_on_off.lstrip()
+        print('xxx2 = ' + xxx2.lstrip())
+        if xxx2 == '0':
+            Position_relay1_on_off = 'OFF'
+        elif xxx2 == '1':
+            Position_relay1_on_off = 'ON'
+        else:
+            Position_relay1_on_off = 'Unknown'
+
+        if Variables.Position_relay3_alarm.lstrip() == '0':
+            Position_relay3_alarm = 'OFF'
+        elif Variables.Position_relay3_alarm.lstrip() == '1':
+            Position_relay3_alarm = 'ON'
+        else:
+            Position_relay3_alarm = 'Unknown'
+
         lbl_gen_fr_1_value['text'] = xxx1
-        lbl_gen_fr_2_value['text'] = xxx1
+        lbl_gen_fr_2_value['text'] = Position_relay1_on_off
+        lbl_gen_fr_3_value['text'] = Position_relay3_alarm
+        lbl_gen_fr_4_value['text'] = status1
         print('xxx= ' + str(xxx1))
         del xxx1
         gc.collect()
@@ -244,6 +267,9 @@ def update_time():
     # run `update_time` again after 1000ms (1s)
     root.after(1000, update_time)  # function name without ()
 
+def time_for_start():
+    lbl_gen_fr_6_value['text'] = Variables.time_for_program_start
+    root.after(1000, time_for_start)
 
 def start_function():
     check_Server_sensor_conections()
@@ -311,16 +337,18 @@ lbl_Internet_sensor.pack()
 
 lbl_general = Label(master=frame_tumblers_frame, text='General', font="Tahoma 16", bg='#a4aaab')
 lbl_general.pack()
-lbl_gen_fr_1 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
-lbl_gen_fr_1_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
-lbl_gen_fr_2 = Label(master=frame_general1, text='Light sensor2 value', font="Tahoma 14", bg='#a4aaab')
-lbl_gen_fr_2_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
-lbl_gen_fr_3 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
-lbl_gen_fr_3_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
-lbl_gen_fr_4 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
-lbl_gen_fr_4_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
-lbl_gen_fr_5 = Label(master=frame_general1, text='Light sensor value', font="Tahoma 14", bg='#a4aaab')
-lbl_gen_fr_5_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 14", bg='White')
+lbl_gen_fr_1 = Label(master=frame_general1, text='Light sensor value', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_1_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
+lbl_gen_fr_2 = Label(master=frame_general1, text='Position relay on/off pump', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_2_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
+lbl_gen_fr_3 = Label(master=frame_general1, text='Position alarm relay pump', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_3_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
+lbl_gen_fr_4 = Label(master=frame_general1, text='Status water pump', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_4_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
+lbl_gen_fr_5 = Label(master=frame_general1, text='Light sensor value', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_5_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
+lbl_gen_fr_6 = Label(master=frame_general1, text='Program already running ', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_6_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
 lbl_gen_fr_1.pack(pady=1)
 lbl_gen_fr_1_value.pack(pady=1)
 lbl_gen_fr_2.pack(pady=1)
@@ -331,6 +359,8 @@ lbl_gen_fr_4.pack(pady=1)
 lbl_gen_fr_4_value.pack(pady=1)
 lbl_gen_fr_5.pack(pady=1)
 lbl_gen_fr_5_value.pack(pady=1)
+lbl_gen_fr_6.pack(pady=1)
+lbl_gen_fr_6_value.pack(pady=1)
 
 lbl_gen_fr2_1 = Label(master=frame_general2, text='selective control', font="Tahoma 14", bg='#a4aaab')
 lbl_gen_fr2_1.place(x=45, y=20, width=150, height=25)
@@ -341,17 +371,17 @@ lbl_gen_fr2_3.place(x=35, y=174, height=25)
 lbl_gen_fr2_4 = Label(master=frame_general2, text='control system', font="Tahoma 14", bg='#a4aaab')
 lbl_gen_fr2_4.place(x=57, y=252, height=25)
 
-lbl_gen_fr3_1 = Label(master=frame_general3, text='Relay sadok', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_1 = Label(master=frame_general3, text='Relay sadok', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_1_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_2 = Label(master=frame_general3, text='Reley2', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_2 = Label(master=frame_general3, text='Reley2', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_2_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_3 = Label(master=frame_general3, text='4 Reley 1', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_3 = Label(master=frame_general3, text='4 Reley 1', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_3_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_4 = Label(master=frame_general3, text='4 Reley 2', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_4 = Label(master=frame_general3, text='4 Reley 2', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_4_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_5 = Label(master=frame_general3, text='4 Reley 3', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_5 = Label(master=frame_general3, text='4 Reley 3', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_5_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
-lbl_gen_fr3_6 = Label(master=frame_general3, text='4 Reley 4', font="Tahoma 12", bg='#a4aaab')
+lbl_gen_fr3_6 = Label(master=frame_general3, text='4 Reley 4', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr3_6_value = Label(master=frame_general3, text='Unknown position', font="Tahoma 12", bg='White')
 lbl_gen_fr3_1.pack(pady=1)
 lbl_gen_fr3_1_value.pack(pady=1)
@@ -482,6 +512,10 @@ th5 = Thread(target=logic_center.logics_Sadok_Light, daemon=True)
 th5.start()
 th6 = Thread(target=logic_center.logics_4relay_Light, daemon=True)
 th6.start()
+th7 = Thread(target=reading_COM.COMPORTREAD, daemon=True)
+th7.start()
+th8 = Thread(target=timer_for_control_panel.time_for_start, daemon=True)
+th8.start()
 
 root.after(0, start_function)
 root.after(0, start_some_function)
@@ -492,6 +526,7 @@ root.after(0, check_Power)
 # root.after(2000, check_Light_sensor_conections)
 # root.after(1000, check_Server_sensor_conections)
 root.after(1000, update_time)
+root.after(1000, time_for_start)
 root.title('Control panel')
 # root.after(500, parser_GPIO_sadok)
 # root.after(500, parser_GPIO_4relay)
