@@ -5,6 +5,7 @@ import time
 from time import sleep
 import serial.tools.list_ports
 import serial
+from serial import SerialException
 from serial.win32 import ClearCommError
 
 
@@ -43,6 +44,7 @@ def serial_ports():
 
 
 def read_com_port():
+  while True:
     ser = serial.Serial('COM4', baudrate=9600, timeout=0)  # настройка порта
     while True:
         try:
@@ -67,14 +69,10 @@ def read_com_port():
                 print('match!!! status = ' + str(lines1.split('=', 1)[1]))
             if not lines:
                 sleep(2.0)
-          # else:
-          #     continue
         except Exception as e:
-            continue
+            break
             pass
-
-
-    # sleep(5.0)
+    sleep(1.0)
 
 
 run = read_com_port()

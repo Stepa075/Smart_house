@@ -117,6 +117,7 @@ def parsing_ESP():
 
 
 def parsing_GPIO_Sadok():
+    global str_sad3
     while True:
         try:
 

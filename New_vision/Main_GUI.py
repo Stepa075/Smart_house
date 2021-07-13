@@ -10,7 +10,7 @@ import requests
 
 import Variables
 
-import Stream_2
+from New_vision import Stream_2
 import logic_center
 import reading_COM
 from New_vision import timer_for_control_panel

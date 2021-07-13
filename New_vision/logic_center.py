@@ -18,14 +18,14 @@ def logics_Sadok_Light():
             xxx1 = Variables.parsing_ESP
             print('logic_Sadok_Light xxx1= ' + str(xxx1))
             if isinstance(xxx1, int):
-                if xxx1 <= 100:
+                if xxx1 <= 50:
                     if str(Variables.Sadok_Light) == '0':
                         print('logics_Sadok_Light all Ok, ON!')
                     elif str(Variables.Sadok_Light) == '1':
                         a = Variables.GPIO_sad_on
                         requests.get(a)
                         print('Night street')
-                elif xxx1 >= 100:
+                elif xxx1 >= 50:
                     if str(Variables.Sadok_Light) == '1':
                         print('logics_Sadok_Light all Ok, OFF!')
                     elif str(Variables.Sadok_Light) == '0':
@@ -57,7 +57,7 @@ def logics_4relay_Light():
             if isinstance(Variables.parsing_ESP, int):
                 if Variables.status_code_4relay == 200:
                     if str(Variables.GPIO_4Relay1_flag) == '2':
-                        if int(Variables.parsing_ESP) <= 100:
+                        if int(Variables.parsing_ESP) <= 50:
                             if Variables.r1 == '0':
                                 c = Variables.GPIO_4relay1_on
                                 requests.get(c)
@@ -83,7 +83,7 @@ def logics_4relay_Light():
                         print('4Relay 1Relay manual control Error!')
 
                     if str(Variables.GPIO_4Relay2_flag) == '2':
-                        if int(Variables.parsing_ESP) <= 100:
+                        if int(Variables.parsing_ESP) <= 50:
                             if Variables.r2 == '0':
                                 g = Variables.GPIO_4relay2_on
                                 requests.get(g)
@@ -109,7 +109,7 @@ def logics_4relay_Light():
                         print('4Relay 2Relay manual control Error!')
 
                 if str(Variables.GPIO_4Relay3_flag) == '2':
-                    if int(Variables.parsing_ESP) <= 100:
+                    if int(Variables.parsing_ESP) <= 50:
                         if Variables.r3 == '0':
                             k = Variables.GPIO_4relay3_on
                             requests.get(k)
@@ -135,7 +135,7 @@ def logics_4relay_Light():
                     print('4Relay 3Relay manual control Error!')
 
                 if str(Variables.GPIO_4Relay4_flag) == '2':
-                    if int(Variables.parsing_ESP) <= 100:
+                    if int(Variables.parsing_ESP) <= 50:
                         if Variables.r4 == '0':
                             o = Variables.GPIO_4relay4_on
                             requests.get(o)

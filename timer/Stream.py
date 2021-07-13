@@ -1,9 +1,9 @@
 from threading import Thread
 from time import sleep
 from tkinter.filedialog import askopenfilename
-
+import os
 import Variables
-
+import sys
 default_seconds = 120  # изначальное положение(2 мин 00 сек)
 timer_seconds = 0
 timer_running = True
@@ -56,10 +56,17 @@ def show_timer():
 def do_it_by_end_timer():
     if Variables.input_combo_box == 0:
         print('Выключить ПК')
+        os.system('shutdown -s')
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
     if Variables.input_combo_box == 1:
         print('Перезагрузить ПК')
+        os.system('shutdown -r')
+        os.execl(sys.executable, sys.executable, *sys.argv)
     if Variables.input_combo_box == 2:
         print('Гибернация')
+        os.system('shutdown -h')
+        os.execl(sys.executable, sys.executable, *sys.argv)
     if Variables.input_combo_box == 3:
         print('Выполнить файл')
     if Variables.input_combo_box == 4:
