@@ -38,47 +38,39 @@ import Variables
 #     return res
 
 
-ser = serial.Serial('COM4', baudrate=9600, timeout=2)  # настройка порта
+
 
 
 def COMPORTREAD():
     while True:
-
         try:
-
-            lines = ser.readline()
-            print(lines.decode('UTF-8').strip())
-            lines1 = str(lines.decode('UTF-8'))
-            lines1 = lines1.rstrip()
-            lines1.lstrip()
-            # print('lines1 = ' + lines1)
-            # print( lines1.split('=', 1)[0])
-            if lines1.split('=', 1)[0] == 'gerkon_down':
-                print('match!!! gerkon_down = ' + str(lines1.split('=', 1)[1]))
-                Variables.gerkon_down = str(lines1.split('=', 1)[1])
-            if lines1.split('=', 1)[0] == 'gerkon_up':
-                print('match!!! gerkon_up = ' + str(lines1.split('=', 1)[1]))
-                Variables.gerkon_up = str(lines1.split('=', 1)[1])
-            if lines1.split('=', 1)[0] == 'gerkon_alarm':
-                print('match!!! gerkon_alarm = ' + str(lines1.split('=', 1)[1]))
-                Variables.gerkon_alarm = str(lines1.split('=', 1)[1])
-            if lines1.split('=', 1)[0] == 'Position relay1_on_off':
-                print('match!!! Position relay1_on_off = ' + str(lines1.split('=', 1)[1]))
-                Variables.Position_relay1_on_off = str(lines1.split('=', 1)[1])
-                print('Variables.Position_relay1_on_off =' + Variables.Position_relay1_on_off)
-            if lines1.split('=', 1)[0] == 'Position relay2':
-                print('match!!! Position relay2 = ' + str(lines1.split('=', 1)[1]))
-                Variables.Position_relay2 = str(lines1.split('=', 1)[1])
-            if lines1.split('=', 1)[0] == 'Position relay3_alarm':
-                print('match!!! Position relay3_alarm = ' + str(lines1.split('=', 1)[1]))
-                Variables.Position_relay3_alarm = str(lines1.split('=', 1)[1])
-            if lines1.split('=', 1)[0] == 'status':
-                print('match!!! status = ' + str(lines1.split('=', 1)[1]))
-                Variables.status = str(lines1.split('=', 1)[1])
-        except ClearCommError:
-            continue
-        except:
-            sleep(5.0)
-            continue
-            pass
-    sleep(5.0)
+            ser = serial.Serial('COM4', baudrate=9600, timeout=0)
+        except Exception as e:
+            print('open error', e)
+            sleep(1.0)
+        while True:
+            try:
+                lines = ser.readline()
+                print(lines.decode('UTF-8').strip())
+                lines1 = str(lines.decode('UTF-8'))
+                lines1 = lines1.rstrip()
+                if lines1.split('=', 1)[0] == 'gerkon_down':
+                    print('match!!! gerkon_down = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'gerkon_up':
+                    print('match!!! gerkon_up = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'gerkon_alarm':
+                    print('match!!! gerkon_alarm = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'Position relay1_on_off':
+                    print('match!!! Position relay1_on_off = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'Position relay2':
+                    print('match!!! Position relay2 = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'Position relay3_alarm':
+                    print('match!!! Position relay3_alarm = ' + str(lines1.split('=', 1)[1]))
+                if lines1.split('=', 1)[0] == 'status':
+                    print('match!!! status = ' + str(lines1.split('=', 1)[1]))
+                if not lines:
+                    sleep(2.0)
+            except Exception as e:
+                break
+                pass
+        sleep(5.0)

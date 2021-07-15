@@ -1,0 +1,1 @@
+gerkon_down=0;gerkon_up=1;gerkon_alarm=0;Int_en;r1=0;r2=0;r3=0

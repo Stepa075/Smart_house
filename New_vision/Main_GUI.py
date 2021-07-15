@@ -10,10 +10,11 @@ import requests
 
 import Variables
 
-from New_vision import Stream_2
+
 import logic_center
 import reading_COM
-from New_vision import timer_for_control_panel
+import timer_for_control_panel
+import Stream_2
 
 
 def start_frame():
@@ -106,9 +107,10 @@ def check_Power():
 
 
 def xxx():
+    lbl_gen_fr_5_value ['text'] = str(Variables.counting_requaest)
     try:
         xxx1: int = Variables.parsing_ESP
-        status1 = Variables.status
+        status1 = 'Unknown'
         xxx2 = Variables.Position_relay1_on_off.lstrip()
         print('xxx2 = ' + xxx2.lstrip())
         if xxx2 == '0':
@@ -124,6 +126,32 @@ def xxx():
             Position_relay3_alarm = 'ON'
         else:
             Position_relay3_alarm = 'Unknown'
+
+        if Variables.status == "Int_st":
+            status1 = 'Status = Intake hus begun'
+        elif Variables.status == 'Int_en':
+            status1 = 'Status = Intake is over'
+        elif Variables.status == 'unknown':
+            status1 = 'Status temporarily unknown'
+        elif Variables.status == 'f3_I_s':
+            status1 = 'flag3 Intake has begun'
+        elif Variables.status == 'f4_I_e':
+            status1 = 'flag4 Intake is over'
+        elif Variables.status == 'upbyfl':
+            status1 = 'Status be updated by flag'
+        elif Variables.status == '_1.1.1':
+            status1 = '1.1.1 ALARM!!!'
+        elif Variables.status == '_1.1.0':
+            status1 = '1.1.0 ALARM!!!'
+        elif Variables.status == '_0.0.1':
+            status1 = '0.0.1 ALARM!!!'
+        elif Variables.status == '_0.1.1':
+            status1 = '0.1.1 ALARM!!!'
+        elif Variables.status == '_1.0.1':
+            status1 = '1.0.1 ALARM!!!'
+        else:
+            status1 = 'Something wrong!'
+
 
         lbl_gen_fr_1_value['text'] = xxx1
         lbl_gen_fr_2_value['text'] = Position_relay1_on_off
@@ -243,6 +271,7 @@ def check_Light_sensor_conections():
 def check_Server_sensor_conections():
     try:
         rg = requests.get("http://f0555107.xsph.ru/")  # резервный ('http://httpbin.org/get')
+        Variables.counting_requaest += 1
         print('check server ' + str(rg.status_code))
         if int(rg.status_code) == 200:
             lbl_Server_sensor['text'] = 'Server sensor status: Connected, Ok'
@@ -345,7 +374,7 @@ lbl_gen_fr_3 = Label(master=frame_general1, text='Position alarm relay pump', fo
 lbl_gen_fr_3_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
 lbl_gen_fr_4 = Label(master=frame_general1, text='Status water pump', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr_4_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
-lbl_gen_fr_5 = Label(master=frame_general1, text='Light sensor value', font=("Tahoma",12, BOLD ), bg='#a4aaab')
+lbl_gen_fr_5 = Label(master=frame_general1, text='Requests to the server', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr_5_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
 lbl_gen_fr_6 = Label(master=frame_general1, text='Program already running ', font=("Tahoma",12, BOLD ), bg='#a4aaab')
 lbl_gen_fr_6_value = Label(master=frame_general1, text='Unknown value', font="Tahoma 12", bg='White')
@@ -512,10 +541,14 @@ th5 = Thread(target=logic_center.logics_Sadok_Light, daemon=True)
 th5.start()
 th6 = Thread(target=logic_center.logics_4relay_Light, daemon=True)
 th6.start()
-th7 = Thread(target=reading_COM.COMPORTREAD, daemon=True)
-th7.start()
+# th7 = Thread(target=reading_COM.COMPORTREAD, daemon=True)
+# th7.start()
 th8 = Thread(target=timer_for_control_panel.time_for_start, daemon=True)
 th8.start()
+# th9 = Thread(target=calculating_request_to_server(), daemon=True)
+# th9.start()
+th10 = Thread(target=Stream_2.parsing_ESP_nasos, daemon=True)
+th10.start()
 
 root.after(0, start_function)
 root.after(0, start_some_function)

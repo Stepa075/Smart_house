@@ -1,5 +1,6 @@
 
 import threading
+import time
 from time import sleep
 
 import requests
@@ -28,6 +29,7 @@ def start1():
                           'params2_4': r4_4, 'control': 'home'}
                 print(params)
                 r = requests.get('http://f0555107.xsph.ru/index.php', params=params, timeout=3.0)
+                Variables.counting_requaest +=1
                 r.encoding = "UTF8"
                 print('start1 = Ok')
                 print(r.text)
@@ -48,6 +50,7 @@ def start2():
             if Variables.status_code_server_connections == 200:
                 url = "http://f0555107.xsph.ru/hello.html"
                 r = requests.get(url, timeout=3.00)
+                Variables.counting_requaest += 1
                 r.encoding = "UTF8"
                 if r.status_code == 200:
                     print('start2 = Ok')
@@ -187,3 +190,44 @@ def parsing_GPIO_4relay11():
             pass
         # break
     sleep(10.0)
+
+def parsing_ESP_nasos():
+    while True:
+
+        try:
+            url = "http://192.168.0.140/uartbrprint"
+            r = requests.get(url)
+            Variables.status_code_4relay = r.status_code
+            r.encoding = "UTF8"
+            with open('nasos_ESP.txt', 'w') as output_file:
+                output_file.write(r.text)
+            f = open('nasos_ESP.txt')
+            str_nasos = f.read()
+            f.close()
+            print('parsing_ESP_nasos = Ok')
+            str_1 = str_nasos
+            Variables.gerkon_down = str_1[12:13]
+            Variables.gerkon_up = str_1[24:25]
+            Variables.gerkon_alarm = str_1[39:40]
+            Variables.status = str_1[41:47]
+            Variables.Position_relay1_on_off = str_1[51:52]
+            Variables.Position_relay2 = str_1[56:57]
+            Variables.Position_relay3_alarm = str_1[61:62]
+            sleep(10.0)
+        except:
+            sleep(10.0)
+            continue
+            pass
+    sleep(10.0)
+
+# def calculating_request_to_server():
+#     x = Variables.time_start + 3600000
+#     current_time = int(time.time())
+#     if current_time >= x:
+#         Variables.time_request_per_hour_stand_by = Variables.time_request_per_hour
+#         x += 3600000
+#         print('Request to server per hour = ' + str(Variables.counting_requaest))
+#         sleep(10.0)
+#     else:
+#         print('Not statics per hour...')
+#         sleep(59.0)
